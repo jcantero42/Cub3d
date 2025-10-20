@@ -11,7 +11,7 @@ int	parse_file(char *filename, t_game *game)
 		return (0);
 	while ((line = get_next_line(fd)) != NULL)
 	{
-		if (parse_config_line(line, game))
+		if (!parse_config_line(line, game))
 		{	
 			free(line);
 			break;
@@ -32,8 +32,8 @@ int	parse_config_line(char *line, t_game *game)
 	char	**split;
 
 	split = ft_split(line, ' ');
-	if (!split || !split[0])
-		return(ft_freeup(split));
+	if (!split || !split[0] || !split[1])
+		return(0);
 	if (ft_strcmp(split[0], "NO") == 0)
 		game->no_texture = ft_strdup(split[1]);
 	else if (ft_strcmp(split[0], "SO") == 0)
@@ -47,15 +47,26 @@ int	parse_config_line(char *line, t_game *game)
 	else if (ft_strcmp(split[0], "C") == 0)
 		game->ceiling_color = parse_color(split[1]);*/
 	else
-		return (ft_freeup(split), 0);
-	return (ft_freeup(split, 1));	
+		return (0);
+	return (1);	
 }
 
 
-int	config_is_complete(game)
+int	config_is_complete(t_game *game)
 {
-	if (!game->no_texture || !game->so_texture || !game->we_texture || !game->ea_texture ||
-		game->floor_color == -1 || game->ceiling_color == -1)
+	if (!game->no_texture || !game->so_texture || !game->we_texture || !game->ea_texture)
 		return (0);
 	return (1);
 }
+
+int ft_strcmp(const char *s1, const char *s2) 
+{
+    
+	while (*s1 && (*s1 == *s2)) 
+	{
+        s1++;
+        s2++;
+    }
+    return *(unsigned char *)s1 - *(unsigned char *)s2;
+}
+

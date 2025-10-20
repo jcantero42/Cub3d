@@ -2,7 +2,6 @@
 # define CUB3D_H
 
 #include "../libft/libft.h"
-#include "../src/get_next_line/get_next_line.h"
 #include <stdio.h>
 #include <fcntl.h>
 
@@ -27,6 +26,7 @@ int		validate_args(int ac, char **av);
 int		parse_file(char *filename, t_game *game);
 int		parse_config_line(char *line, t_game *game);
 int		config_is_complete(t_game *game);
+int 	ft_strcmp(const char *s1, const char *s2);
 
 
 

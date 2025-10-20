@@ -17,8 +17,8 @@ int main(int ac, char **av)
 	t_game game;
 
 	if (!validate_args(ac, av))
-		return (1);	
+		return (printf("hola"), 1);	
 	ft_memset(&game, 0, sizeof(t_game));
 	if (!parse_file(av[1], &game))
-		return (1);
+		return (printf("fallo"), 1);
 }
