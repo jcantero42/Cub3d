@@ -8,11 +8,20 @@ typedef struct s_game
 	int		ceiling_color;
 	double	player_x;
 	double	player_y;
-	char	*map;
+	char	**map;
 	int		width;
 	int		height;
 
 	void	*mlx;
 	void	*win;
+
+	double	dir_x;
+	double	dir_y;
+
+	double	plane_x;
+	double	plane_y;
+
+	double	time;
+	double	old_time;
 } t_game;
 
