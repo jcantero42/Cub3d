@@ -24,6 +24,15 @@ typedef struct s_game
 	double	delta_x;
 	double	delta_y;
 
+	double	hor_x;
+	double	hor_y;
+
+	double	ver_x;
+	double	ver_y;
+
+	double	step_x;
+	double	step_y;
+
 	void	*mlx;
 	void	*win;
 } t_game;
