@@ -5,13 +5,6 @@
 #include <math.h>
 #include <limits.h>
 
-#define WIN_WIDTH 640
-#define WIN_HEIGHT 480
-
-#define FOV 1.05
-
-#define PI 3.14159265359
-
 char	**init_map()
 {
 	char	**map;
@@ -42,6 +35,8 @@ t_game	*init_game()
 	g->angle = PI / 2;
 	g->mlx = mlx_init();
 	g->win = mlx_new_window(g->mlx, WIN_WIDTH, WIN_HEIGHT,  "cubed");
+	g->img = mlx_new_image(g->mlx, WIN_WIDTH, WIN_HEIGHT);
+	g->addr = mlx_get_data_addr(g->img, &g->bpp, &g->line_len, &g->endian);
 	return (g);
 }
 
@@ -51,13 +46,16 @@ char	check_vertical(t_game *g)
 	int	tile_y;
 
 	if (g->right)
-		tile_x = ceil(g->ver_x);
+		tile_x = ceil(g->vx);
 	else
-		tile_x = floor(g->ver_x);
-	tile_y = round(g->ver_y);
+		tile_x = floor(g->vx);
+	tile_y = round(g->vy);
 	// printf("map[%lf][%lf]\n", g->ver_y, g->ver_x);
 	// printf("map[%d][%d]\n", tile_y, tile_x);
-	// TODO: check for out of bounds
+	if (tile_x > g->width - 1 || tile_x < 0)
+		return ('E');
+	if (tile_y > g->height - 1 || tile_y < 0)
+		return ('E');
 	return (g->map[tile_y][tile_x]);
 }
 
@@ -67,13 +65,16 @@ char	check_horizontal(t_game *g)
 	int	tile_y;
 
 	if (g->up)
-		tile_y = floor(g->hor_y);
+		tile_y = floor(g->hy);
 	else
-		tile_y = ceil(g->hor_y);
-	tile_x = round(g->hor_x);
+		tile_y = ceil(g->hy);
+	tile_x = round(g->hx);
 	// printf("map[%lf][%lf]\n", g->hor_y, g->hor_x);
 	// printf("map[%d][%d]\n", tile_y, tile_x);
-	// TODO: check for out of bounds
+	if (tile_x > g->width - 1 || tile_x < 0)
+		return ('E');
+	if (tile_y > g->height - 1 || tile_y < 0)
+		return ('E');
 	return (g->map[tile_y][tile_x]);
 }
 
@@ -100,38 +101,38 @@ int main(void)
 		// g->right ? printf("right\n") : printf("left\n");
 
 		if (g->right)
-			g->delta_x = 0.5 + (round(g->player_x) - g->player_x);
+			g->dx = 0.5 + (round(g->player_x) - g->player_x);
 		else
-			g->delta_x = 0.5 - (round(g->player_x) - g->player_x);
+			g->dx = 0.5 - (round(g->player_x) - g->player_x);
 		// printf("dx %lf\n", g->delta_x);
 
 		if (g->up)
-			g->delta_y = 0.5 - (round(g->player_y) - g->player_y);
+			g->dy = 0.5 - (round(g->player_y) - g->player_y);
 		else
-			g->delta_y = 0.5 + (round(g->player_y) - g->player_y);
+			g->dy = 0.5 + (round(g->player_y) - g->player_y);
 		// printf("dy %lf\n", g->delta_y);
 
 		// first intersections
 
 		if (g->up)
-			g->hor_y = g->player_y - g->delta_y;
+			g->hy = g->player_y - g->dy;
 		else
-			g->hor_y = g->player_y + g->delta_y;
+			g->hy = g->player_y + g->dy;
 		if (g->right)
-			g->hor_x = g->player_x + g->delta_y / tan(ray_ang);
+			g->hx = g->player_x + g->dy / tan(ray_ang);
 		else
-			g->hor_x = g->player_x - g->delta_y / tan(ray_ang);
+			g->hx = g->player_x - g->dy / tan(ray_ang);
 		// printf("hx %lf\n", g->hor_x);
 		// printf("hy %lf\n", g->hor_y);
 
 		if (g->right)
-			g->ver_x = g->player_x + g->delta_x;
+			g->vx = g->player_x + g->dx;
 		else
-			g->ver_x = g->player_x - g->delta_x;
+			g->vx = g->player_x - g->dx;
 		if (g->up)
-			g->ver_y = g->player_y - g->delta_x * tan(ray_ang);
+			g->vy = g->player_y - g->dx * tan(ray_ang);
 		else
-			g->ver_y = g->player_y + g->delta_x * tan(ray_ang);
+			g->vy = g->player_y + g->dx * tan(ray_ang);
 		// printf("vx %lf\n", g->ver_x);
 		// printf("vy %lf\n", g->ver_y);
 
@@ -148,21 +149,20 @@ int main(void)
 			char c = check_horizontal(g);
 			if (c == 'E')
 			{
-				// printf("HOR ERROR\n");
-				g->hor_y = 0;
-				g->hor_x = 0;
+				g->hy = INT_MAX;
+				g->hx = INT_MAX;
 				break ;
 			}
 			else if (c == '1')
 				break ;
 			if (g->right)
-				g->hor_x += g->step_x;
+				g->hx += g->step_x;
 			else
-				g->hor_x -= g->step_x;
+				g->hx -= g->step_x;
 			if (g->up)
-				g->hor_y -= 1;
+				g->hy -= 1;
 			else
-				g->hor_y += 1;
+				g->hy += 1;
 		}
 		while (1)
 		{
@@ -170,32 +170,51 @@ int main(void)
 			char c = check_vertical(g);
 			if (c == 'E')
 			{
-				// printf("HOR ERROR\n");
-				g->ver_y = 0;
-				g->ver_x = 0;
+				g->vy = INT_MAX;
+				g->vx = INT_MAX;
 				break ;
 			}
 			else if (c == '1')
 				break ;
 			if (g->up)
-				g->ver_y -= g->step_y;
+				g->vy -= g->step_y;
 			else
-				g->ver_y += g->step_y;
+				g->vy += g->step_y;
 			if (g->right)
-				g->ver_x += 1;
+				g->vx += 1;
 			else
-				g->ver_x -= 1;
+				g->vx -= 1;
 		}
 
-		printf("hx %lf hy %lf\n", g->hor_x, g->hor_y);
-		printf("vx %lf vy %lf\n", g->ver_x, g->ver_y);
+		// printf("hx %lf hy %lf\n", g->hor_x, g->hor_y);
+		// printf("vx %lf vy %lf\n", g->ver_x, g->ver_y);
 
-		// next
+		g->dh = sqrt(g->hx * g->hx + g->hy * g->hy);
+		g->dv = sqrt(g->vx * g->vx + g->vy * g->vy);
+		if (g->dh < g->dv)
+		{
+			g->fx = g->hx;
+			g->fy = g->hy;
+			g->dmin = g->dh;
+		}
+		else
+		{
+			g->fx = g->vx;
+			g->fy = g->vy;
+			g->dmin = g->dv;
+		}
+		
+		// printf("(%lf, %lf)\n", g->fx, g->fy);
+
+		g->h = (0.5 * WIN_WIDTH) / (2 * g->dmin * tan(FOV / 2));
+
+		printf("%lf\n", g->h);
+
+		paint_column(g, i, g->h);
+
 		ray_ang += step_ang;
 		i++;
-		if (i == 3)
-			break ;
 	}
-
-	// mlx_loop(g->mlx);
+	mlx_put_image_to_window(g->mlx, g->win, g->img, 0, 0);
+	mlx_loop(g->mlx);
 }

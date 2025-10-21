@@ -1,3 +1,13 @@
+#ifndef CUBED_H
+# define CUBED_H
+
+#define WIN_WIDTH 640
+#define WIN_HEIGHT 480
+
+#define FOV 1.05
+
+#define PI 3.14159265359
+
 typedef struct s_game
 {
 	char	*no_texture;
@@ -21,19 +31,39 @@ typedef struct s_game
 	int		up;
 	int		down;
 
-	double	delta_x;
-	double	delta_y;
+	double	dx;
+	double	dy;
 
-	double	hor_x;
-	double	hor_y;
+	double	hx;
+	double	hy;
 
-	double	ver_x;
-	double	ver_y;
+	double	vx;
+	double	vy;
 
 	double	step_x;
 	double	step_y;
 
+	double	fx;
+	double	fy;
+
+	double	dh;
+	double	dv;
+
+	double	dmin;
+
+	double	h;
+
 	void	*mlx;
 	void	*win;
+
+	void	*img;
+	char	*addr;
+	int		bpp;
+	int		line_len;
+	int		endian;
 } t_game;
 
+void	pixel_put(t_game *g, int x, int y, int color);
+void	paint_column(t_game *g, int x, int h);
+
+#endif
