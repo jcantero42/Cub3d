@@ -1,6 +1,6 @@
 NAME = cub3D
 
-SRC = main.c paint.c check.c game.c
+SRC = main.c paint.c check.c game.c raycast.c
 
 OBJS = $(SRC:.c=.o)
 

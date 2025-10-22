@@ -44,6 +44,7 @@ typedef struct s_game
 
 	double	step_x;
 	double	step_y;
+	double	sa; // step angle
 
 	double	fx; // final x
 	double	fy; // final y
@@ -72,5 +73,6 @@ char	**init_map();
 t_game	*init_game();
 char	check_vertical(t_game *g);
 char	check_horizontal(t_game *g);
+void	cast_rays(t_game *g);
 
 #endif
