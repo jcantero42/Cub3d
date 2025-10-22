@@ -101,6 +101,8 @@ void	compute_distance(t_game *g)
 {
 	g->dh = sqrt((g->hx - g->px) * (g->hx - g->px) + (g->hy - g->py) * (g->hy - g->py));
 	g->dv = sqrt((g->vx - g->px) * (g->vx - g->px) + (g->vy - g->py) * (g->vy - g->py));
+	g->dh = g->dh * fabs(sin(g->ra));
+	g->dv = g->dv * fabs(sin(g->ra));
 	if (g->dh < g->dv)
 	{
 		g->fx = g->hx;
@@ -108,14 +110,11 @@ void	compute_distance(t_game *g)
 		g->dmin = g->dh;
 	}
 	else
-{
+	{
 		g->fx = g->vx;
 		g->fy = g->vy;
 		g->dmin = g->dv;
 	}
-
-	g->dmin = g->dmin * fabs(sin(g->ra));
-
 	g->h = (0.5 * WIN_WIDTH) / (2 * g->dmin * fabs(tan(FOV / 2)));
 }
 
