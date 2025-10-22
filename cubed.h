@@ -33,27 +33,27 @@ typedef struct s_game
 	int		up;
 	int		down;
 
-	double	dx;
-	double	dy;
+	double	dx; // delta x
+	double	dy; // delta y
 
-	double	hx;
-	double	hy;
+	double	hx; // horizontal x
+	double	hy; // horizontal y
 
-	double	vx;
-	double	vy;
+	double	vx; // vertical x
+	double	vy; // vertical y
 
 	double	step_x;
 	double	step_y;
 
-	double	fx;
-	double	fy;
+	double	fx; // final x
+	double	fy; // final y
 
-	double	dh;
-	double	dv;
+	double	dh; // distance horizontal
+	double	dv; // distance vertical
 
-	double	dmin;
+	double	dmin; // distance minimum
 
-	double	h;
+	double	h; // height of wall
 
 	void	*mlx;
 	void	*win;
