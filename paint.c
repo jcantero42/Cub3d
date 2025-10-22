@@ -1,4 +1,5 @@
 #include "cubed.h"
+#include "libft/libft.h"
 
 void	pixel_put(t_game *g, int x, int y, int color)
 {
@@ -19,8 +20,8 @@ void	paint_column(t_game *g, int x, int h)
 		pixel_put(g, x, i, 0x000000FF);
 		i++;
 	}
-	i = WIN_HEIGHT / 2 - h / 2;
-	while (i < WIN_HEIGHT / 2 + h / 2)
+	i = ft_max(WIN_HEIGHT / 2 - h / 2, 0);
+	while (i < ft_min(WIN_HEIGHT / 2 + h / 2, WIN_HEIGHT))
 	{
 		pixel_put(g, x, i, 0x0000FF00);
 		i++;

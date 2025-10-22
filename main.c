@@ -15,7 +15,7 @@ char	**init_map()
 		map[i] = (char *)malloc(6 * sizeof(char));
 	}
 	ft_strlcpy(map[0], "11111", 6);
-	ft_strlcpy(map[1], "10001", 6);
+	ft_strlcpy(map[1], "10101", 6);
 	ft_strlcpy(map[2], "10001", 6);
 	ft_strlcpy(map[3], "10001", 6);
 	ft_strlcpy(map[4], "11111", 6);
@@ -28,7 +28,7 @@ t_game	*init_game()
 	
 	g = (t_game *)malloc(sizeof(t_game));
 	g->px = 2;
-	g->py = 2;
+	g->py = 3;
 	g->map = init_map();
 	g->width = 5;
 	g->height = 5;
@@ -50,8 +50,6 @@ char	check_vertical(t_game *g)
 	else
 		tile_x = floor(g->vx);
 	tile_y = round(g->vy);
-	// printf("(%lf, %lf)\n", g->vx, g->vy);
-	// printf("(%d, %d)\n", tile_x, tile_y);
 	if (tile_x > g->width - 1 || tile_x < 0)
 		return ('E');
 	if (tile_y > g->height - 1 || tile_y < 0)
@@ -69,8 +67,6 @@ char	check_horizontal(t_game *g)
 	else
 		tile_y = ceil(g->hy);
 	tile_x = round(g->hx);
-	// printf("(%lf, %lf)\n", g->hx, g->hy);
-	// printf("(%d, %d)\n", tile_x, tile_y);
 	if (tile_x > g->width - 1 || tile_x < 0)
 		return ('E');
 	if (tile_y > g->height - 1 || tile_y < 0)
@@ -86,30 +82,23 @@ int main(void)
 
 	int i = 0;
 	double ray_ang = g->angle + (FOV / 2);
-	// printf("ray_ang %lf\n", ray_ang * 360 / (2 * PI));
-	// printf("player: %lf %lf\n", g->player_x, g->player_y);
 	double step_ang = FOV / WIN_WIDTH;
 	while (i < WIN_WIDTH)
 	{
-		ray_ang = 108.424174 / 360 * 2 * PI;
 		g->up = ray_ang < PI && ray_ang > 0;
 		g->down = !g->up;
 		g->left = ray_ang > (PI / 2) && ray_ang < (3 * PI / 2);
 		g->right = !g->left;
-		// g->up ? printf("up\n") : printf("down\n");
-		// g->right ? printf("right\n") : printf("left\n");
 
 		if (g->right)
 			g->dx = 0.5 + (round(g->px) - g->px);
 		else
 			g->dx = 0.5 - (round(g->px) - g->px);
-		// printf("dx %lf\n", g->dx);
 
 		if (g->up)
 			g->dy = 0.5 - (round(g->py) - g->py);
 		else
 			g->dy = 0.5 + (round(g->py) - g->py);
-		// printf("dy %lf\n", g->dy);
 
 		// first intersections
 
@@ -121,8 +110,6 @@ int main(void)
 			g->hx = g->px + g->dy / fabs(tan(ray_ang));
 		else
 			g->hx = g->px - g->dy / fabs(tan(ray_ang));
-		// printf("hx %lf\n", g->hx);
-		// printf("hy %lf\n", g->hy);
 
 		if (g->right)
 			g->vx = g->px + g->dx;
@@ -132,19 +119,14 @@ int main(void)
 			g->vy = g->py - g->dx * fabs(tan(ray_ang));
 		else
 			g->vy = g->py + g->dx * fabs(tan(ray_ang));
-		// printf("vx %lf\n", g->vx);
-		// printf("vy %lf\n", g->vy);
 
 		// steps
 		
 		g->step_x = fabs(1 / tan(ray_ang));
 		g->step_y = fabs(tan(ray_ang));
-		// printf("sx %lf\n", g->step_x);
-		// printf("sy %lf\n", g->step_y);
 		
 		while (1)
 		{
-			// printf("horizontal...\n");
 			char c = check_horizontal(g);
 			if (c == 'E')
 			{
@@ -165,7 +147,6 @@ int main(void)
 		}
 		while (1)
 		{
-			// printf("vertical...\n");
 			char c = check_vertical(g);
 			if (c == 'E')
 			{
@@ -185,13 +166,9 @@ int main(void)
 				g->vx -= 1;
 		}
 
-		// printf("hx %lf hy %lf\n", g->hor_x, g->hor_y);
-		// printf("vx %lf vy %lf\n", g->ver_x, g->ver_y);
 
 		g->dh = sqrt((g->hx - g->px) * (g->hx - g->px) + (g->hy - g->py) * (g->hy - g->py));
-		g->dv = sqrt((g->vx - g->px) * (g->vx - g->vx) + (g->vy - g->py) * (g->vy - g->py));
-		printf("dh %lf\n", g->dh);
-		printf("dv %lf\n", g->dv);
+		g->dv = sqrt((g->vx - g->px) * (g->vx - g->px) + (g->vy - g->py) * (g->vy - g->py));
 		if (g->dh < g->dv)
 		{
 			g->fx = g->hx;
@@ -207,26 +184,14 @@ int main(void)
 		
 
 		g->h = (0.5 * WIN_WIDTH) / (2 * g->dmin * tan(FOV / 2));
-		
-		// printf("\n");
-		// printf("ang %lf\n", ray_ang);
-		printf("h %lf ", g->h);
-		printf("ang %lf\n", ray_ang * 360 / (2 * PI));
-		printf("h(%lf, %lf)\n", g->hx, g->hy);
-		printf("v(%lf, %lf)\n", g->vx, g->vy);
-		printf("f(%lf, %lf)\n\n", g->fx, g->fy);
-		// printf("---\n");
-		break ;
 
+		printf("hey\n");
+		printf("i %d\nh %lf\n", i, g->h);
 		paint_column(g, i, g->h);
-
+		printf("bye\n");
 		ray_ang -= step_ang;
 		i++;
 	}
-	// for (int i = 0; i < 5; i++)
-	// 	printf("%s\n", g->map[i]);
-	// printf("p(%lf,  %lf)\n", g->px, g->py);
-	// printf("%lf\n", PI / 2);
 	mlx_put_image_to_window(g->mlx, g->win, g->img, 0, 0);
-	// mlx_loop(g->mlx);
+	mlx_loop(g->mlx);
 }

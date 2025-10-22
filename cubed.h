@@ -4,7 +4,7 @@
 #define WIN_WIDTH 640
 #define WIN_HEIGHT 480
 
-#define FOV 1.05
+#define FOV 1.152
 
 #define PI 3.14159265359
 
