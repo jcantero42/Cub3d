@@ -1,6 +1,6 @@
 NAME = cub3D
 
-SRC = main.c paint.c check.c game.c raycast.c
+SRC = main.c paint.c check.c game.c raycast.c hook.c
 
 OBJS = $(SRC:.c=.o)
 
@@ -19,7 +19,7 @@ mlx_linux/libmlx_Linux.a:
 $(NAME): libft/libft.a mlx_linux/libmlx_Linux.a $(OBJS)
 	$(CC) $(CFLAGS)  $^ -Lmlx_linux -lmlx_Linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz -Llibft -lft -o $@
 
-%.o: %.c
+%.o: %.c cubed.h
 	$(CC) $(CFLAGS) -I/usr/include -Imlx_linux -O3 -c $< -o $@
 
 clean:
