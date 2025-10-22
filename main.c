@@ -186,10 +186,7 @@ int main(void)
 
 		g->h = (0.5 * WIN_WIDTH) / (2 * g->dmin * fabs(tan(FOV / 2)));
 
-		printf("hey\n");
-		printf("i %d\nh %lf\n", i, g->h);
 		paint_column(g, i, g->h);
-		printf("bye\n");
 		g->ra -= step_ang;
 		i++;
 	}
