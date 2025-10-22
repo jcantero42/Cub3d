@@ -1,3 +1,5 @@
 mlx_linux/
 *.o
 cub3D
+.cache/
+compile_commands.json

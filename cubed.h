@@ -22,8 +22,8 @@ typedef struct s_game
 	int		width;
 	int		height;
 
-	double	player_x;
-	double	player_y;
+	double	px;
+	double	py;
 	double	angle;
 
 	int		right;
