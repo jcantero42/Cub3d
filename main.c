@@ -32,7 +32,7 @@ t_game	*init_game()
 	g->map = init_map();
 	g->width = 5;
 	g->height = 5;
-	g->angle = PI / 2;
+	g->pa = PI / 2;
 	g->mlx = mlx_init();
 	g->win = mlx_new_window(g->mlx, WIN_WIDTH, WIN_HEIGHT,  "cubed");
 	g->img = mlx_new_image(g->mlx, WIN_WIDTH, WIN_HEIGHT);
@@ -81,13 +81,13 @@ int main(void)
 	g = init_game();
 
 	int i = 0;
-	double ray_ang = g->angle + (FOV / 2);
+	g->ra = g->pa + (FOV / 2);
 	double step_ang = FOV / WIN_WIDTH;
 	while (i < WIN_WIDTH)
 	{
-		g->up = ray_ang < PI && ray_ang > 0;
+		g->up = g->ra < PI && g->ra > 0;
 		g->down = !g->up;
-		g->left = ray_ang > (PI / 2) && ray_ang < (3 * PI / 2);
+		g->left = g->ra > (PI / 2) && g->ra < (3 * PI / 2);
 		g->right = !g->left;
 
 		if (g->right)
@@ -107,23 +107,23 @@ int main(void)
 		else
 			g->hy = g->py + g->dy;
 		if (g->right)
-			g->hx = g->px + g->dy / fabs(tan(ray_ang));
+			g->hx = g->px + g->dy / fabs(tan(g->ra));
 		else
-			g->hx = g->px - g->dy / fabs(tan(ray_ang));
+			g->hx = g->px - g->dy / fabs(tan(g->ra));
 
 		if (g->right)
 			g->vx = g->px + g->dx;
 		else
 			g->vx = g->px - g->dx;
 		if (g->up)
-			g->vy = g->py - g->dx * fabs(tan(ray_ang));
+			g->vy = g->py - g->dx * fabs(tan(g->ra));
 		else
-			g->vy = g->py + g->dx * fabs(tan(ray_ang));
+			g->vy = g->py + g->dx * fabs(tan(g->ra));
 
 		// steps
 		
-		g->step_x = fabs(1 / tan(ray_ang));
-		g->step_y = fabs(tan(ray_ang));
+		g->step_x = fabs(1 / tan(g->ra));
+		g->step_y = fabs(tan(g->ra));
 		
 		while (1)
 		{
@@ -182,7 +182,7 @@ int main(void)
 			g->dmin = g->dv;
 		}
 		
-		g->dmin = g->dmin * fabs(sin(ray_ang));
+		g->dmin = g->dmin * fabs(sin(g->ra));
 
 		g->h = (0.5 * WIN_WIDTH) / (2 * g->dmin * fabs(tan(FOV / 2)));
 
@@ -190,7 +190,7 @@ int main(void)
 		printf("i %d\nh %lf\n", i, g->h);
 		paint_column(g, i, g->h);
 		printf("bye\n");
-		ray_ang -= step_ang;
+		g->ra -= step_ang;
 		i++;
 	}
 	mlx_put_image_to_window(g->mlx, g->win, g->img, 0, 0);
