@@ -33,7 +33,5 @@ t_game	*init_game()
 	g->pa = PI / 2;
 	g->mlx = mlx_init();
 	g->win = mlx_new_window(g->mlx, WIN_WIDTH, WIN_HEIGHT,  "cubed");
-	g->img = mlx_new_image(g->mlx, WIN_WIDTH, WIN_HEIGHT);
-	g->addr = mlx_get_data_addr(g->img, &g->bpp, &g->line_len, &g->endian);
 	return (g);
 }
