@@ -68,4 +68,9 @@ typedef struct s_game
 void	pixel_put(t_game *g, int x, int y, int color);
 void	paint_column(t_game *g, int x, int h);
 
+char	**init_map();
+t_game	*init_game();
+char	check_vertical(t_game *g);
+char	check_horizontal(t_game *g);
+
 #endif
