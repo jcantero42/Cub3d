@@ -182,6 +182,7 @@ int main(void)
 			g->dmin = g->dv;
 		}
 		
+		g->dmin = g->dmin * sin(ray_ang);
 
 		g->h = (0.5 * WIN_WIDTH) / (2 * g->dmin * tan(FOV / 2));
 
