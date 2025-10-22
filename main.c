@@ -182,9 +182,9 @@ int main(void)
 			g->dmin = g->dv;
 		}
 		
-		g->dmin = g->dmin * sin(ray_ang);
+		g->dmin = g->dmin * fabs(sin(ray_ang));
 
-		g->h = (0.5 * WIN_WIDTH) / (2 * g->dmin * tan(FOV / 2));
+		g->h = (0.5 * WIN_WIDTH) / (2 * g->dmin * fabs(tan(FOV / 2)));
 
 		printf("hey\n");
 		printf("i %d\nh %lf\n", i, g->h);
