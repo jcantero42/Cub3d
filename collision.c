@@ -14,6 +14,8 @@ void	set_move_angle(t_game *g, int keycode)
 		g->ma = g->pa + 3 * PI / 2;
 	if (g->ma > 2 * PI)
 		g->ma -= 2 * PI;
+	else if (g->ma < 0)
+		g->ma += 2 * PI;
 }
 
 // TODO: solve problem when next to wall

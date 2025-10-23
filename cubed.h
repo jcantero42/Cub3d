@@ -22,6 +22,8 @@
 
 #define PLAYER_STEP 0.05
 
+#define ROTATE_STEP 0.05
+
 #define PLAYER_BARRIER 0.5
 
 #define ON_DESTROY 17
@@ -103,5 +105,6 @@ void	cast_rays(t_game *g);
 int	update_game(int keycode, t_game *g);
 int	terminate(t_game *g);
 void	move_player(t_game *g, int keycode);
+void	rotate_perspective(t_game *g, int keycode);
 
 #endif
