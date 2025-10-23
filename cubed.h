@@ -22,6 +22,10 @@
 
 #define PLAYER_STEP 0.05
 
+#define PLAYER_BARRIER 0.5
+
+#define ON_DESTROY 17
+
 typedef struct s_game
 {
 	char	*no_texture;
@@ -69,6 +73,14 @@ typedef struct s_game
 	double	dmin; // distance minimum
 
 	double	h; // height of wall
+	
+	double	nx; // new x
+	double	ny; // new y
+	double	ma; // move angle
+	double	npx; // new player x
+	double	npy; // new player y
+	
+	double	ds; // distance screen
 
 	void	*mlx;
 	void	*win;
@@ -89,5 +101,7 @@ char	check_vertical(t_game *g);
 char	check_horizontal(t_game *g);
 void	cast_rays(t_game *g);
 int	update_game(int keycode, t_game *g);
+int	terminate(t_game *g);
+void	move_player(t_game *g, int keycode);
 
 #endif

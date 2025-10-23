@@ -1,8 +1,7 @@
 #include "mlx_linux/mlx.h"
 #include "cubed.h"
 #include <limits.h>
-#include <stdio.h>
-
+#include <stdlib.h>
 
 int	game_loop(t_game *g)
 {
@@ -14,6 +13,14 @@ int	game_loop(t_game *g)
 	return (0);
 }
 
+int	terminate(t_game *g)
+{
+	mlx_destroy_window(g->mlx, g->win);
+	mlx_destroy_display(g->mlx);
+	free(g->mlx);
+	exit(0);
+}
+
 int main(void)
 {
 	t_game	*g;
@@ -21,5 +28,6 @@ int main(void)
 	g = init_game();
 	mlx_hook(g->win, KEYPRESS, 1L<<0, update_game, g);
 	mlx_loop_hook(g->mlx, game_loop, g);
+	mlx_hook(g->win, ON_DESTROY, 0L, terminate, g);
 	mlx_loop(g->mlx);
 }
