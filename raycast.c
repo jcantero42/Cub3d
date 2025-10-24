@@ -99,10 +99,12 @@ void	vertical_intersection(t_game *g)
 
 void	compute_distance(t_game *g)
 {
-	g->dh = sqrt((g->hx - g->px) * (g->hx - g->px) + (g->hy - g->py) * (g->hy - g->py));
-	g->dv = sqrt((g->vx - g->px) * (g->vx - g->px) + (g->vy - g->py) * (g->vy - g->py));
-	g->dh = g->dh * fabs(sin(g->ra));
-	g->dv = g->dv * fabs(sin(g->ra));
+	g->dh = hypot(g->hx - g->px, g->hy - g->py);
+	g->dv = hypot(g->vx - g->px, g->vy - g->py);
+
+	g->dh *= cos(fabs(g->ra - g->pa));
+	g->dv *= cos(fabs(g->ra - g->pa));
+
 	if (g->dh < g->dv)
 	{
 		g->fx = g->hx;
