@@ -8,49 +8,56 @@ void set_direction(t_game *g)
 		g->ra += 2 * M_PI;
 	if (g->ra > 2 * M_PI)
 		g->ra -= 2 * M_PI;
-	g->up = (g->ra > 0 && g->ra < M_PI);
-	g->down = !g->up;
-	g->right = (g->ra < M_PI_2 || g->ra > 3 * M_PI_2);
+	g->down = (g->ra >= 0 && g->ra <= M_PI);
+	g->up = !g->down;
+	g->right = (g->ra <= M_PI_2 || g->ra >= 3 * M_PI_2);
 	g->left = !g->right;
 }
 
 void	set_delta(t_game *g)
 {
 	if (g->right)
-		g->dx = 0.5 + (round(g->px) - g->px);
+		g->dx = floor(g->px) + 1.0 - g->px;
 	else
-		g->dx = 0.5 - (round(g->px) - g->px);
-
-	if (g->up)
-		g->dy = 0.5 - (round(g->py) - g->py);
+		g->dx = g->px - floor(g->px);
+	if (g->down)
+		g->dy = floor(g->py) + 1.0 - g->py;
 	else
-		g->dy = 0.5 + (round(g->py) - g->py);
+		g->dy = g->py - floor(g->py);
 }
 
 void	set_steps(t_game *g)
 {
-	g->step_x = fabs(1 / tan(g->ra));
-	g->step_y = fabs(tan(g->ra));
+	if (fabs(cos(g->ra)) < 1e-6)
+	{
+		g->step_x = 0;
+		g->step_y = 1e6;
+	}
+	else
+	{
+		g->step_x = fabs(1 / tan(g->ra));
+		g->step_y = fabs(tan(g->ra));
+	}
 }
 
 void	first_intersections(t_game *g)
 {
-	if (g->up)
-		g->hy = g->py - g->dy;
-	else
-		g->hy = g->py + g->dy;
 	if (g->right)
 		g->hx = g->px + g->dy / fabs(tan(g->ra));
 	else
 		g->hx = g->px - g->dy / fabs(tan(g->ra));
+	if (g->down)
+		g->hy = g->py + g->dy;
+	else
+		g->hy = g->py - g->dy;
 	if (g->right)
 		g->vx = g->px + g->dx;
 	else
 		g->vx = g->px - g->dx;
-	if (g->up)
-		g->vy = g->py - g->dx * fabs(tan(g->ra));
-	else
+	if (g->down)
 		g->vy = g->py + g->dx * fabs(tan(g->ra));
+	else
+		g->vy = g->py - g->dx * fabs(tan(g->ra));
 }
 
 void	horizontal_intersection(t_game *g)
@@ -70,10 +77,10 @@ void	horizontal_intersection(t_game *g)
 			g->hx += g->step_x;
 		else
 			g->hx -= g->step_x;
-		if (g->up)
-			g->hy -= 1;
-		else
+		if (g->down)
 			g->hy += 1;
+		else
+			g->hy -= 1;
 	}
 }
 
@@ -90,24 +97,31 @@ void	vertical_intersection(t_game *g)
 		}
 		else if (c == '1')
 			break ;
-		if (g->up)
-			g->vy -= g->step_y;
-		else
-			g->vy += g->step_y;
 		if (g->right)
 			g->vx += 1;
 		else
 			g->vx -= 1;
+		if (g->down)
+			g->vy += g->step_y;
+		else
+			g->vy -= g->step_y;
 	}
 }
 
 void	compute_distance(t_game *g)
 {
+	double	diff;
+
 	g->dh = hypot(g->hx - g->px, g->hy - g->py);
 	g->dv = hypot(g->vx - g->px, g->vy - g->py);
 
-	g->dh *= cos(fabs(g->ra - g->pa));
-	g->dv *= cos(fabs(g->ra - g->pa));
+	diff = g->ra - g->pa;
+	if (diff < -M_PI)
+		diff += 2 * M_PI;
+	if (diff > M_PI)
+		diff -= 2 * M_PI;
+	g->dh *= cos(diff);
+	g->dv *= cos(diff);
 
 	if (g->dh < g->dv)
 	{
@@ -129,10 +143,10 @@ void	cast_rays(t_game *g)
 	int i = 0;
 	g->ra = g->pa + (FOV / 2);
 	g->sa = FOV / WIN_WIDTH;
-	set_delta(g);
 	while (i < WIN_WIDTH)
 	{
 		set_direction(g);
+		set_delta(g);
 		set_steps(g);
 		first_intersections(g);
 		horizontal_intersection(g);
@@ -142,4 +156,40 @@ void	cast_rays(t_game *g)
 		g->ra -= g->sa;
 		i++;
 	}
+}
+
+char	check_vertical(t_game *g)
+{
+	int	tile_x;
+	int	tile_y;
+
+	tile_x = (int)g->vx;
+	if (!g->right)
+		tile_x -= 1;
+	tile_y = (int)g->vy;
+	if (!g->down)
+		tile_y -= 1;
+	if (tile_x > g->width - 1 || tile_x < 0)
+		return ('E');
+	if (tile_y > g->height - 1 || tile_y < 0)
+		return ('E');
+	return (g->map[tile_y][tile_x]);
+}
+
+char	check_horizontal(t_game *g)
+{
+	int	tile_x;
+	int	tile_y;
+
+	tile_x = (int)g->hx;
+	if (!g->right)
+		tile_x -= 1;
+	tile_y = (int)g->hy;
+	if (!g->down)
+		tile_y -= 1;
+	if (tile_x > g->width - 1 || tile_x < 0)
+		return ('E');
+	if (tile_y > g->height - 1 || tile_y < 0)
+		return ('E');
+	return (g->map[tile_y][tile_x]);
 }
