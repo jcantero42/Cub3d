@@ -4,6 +4,10 @@
 
 void set_direction(t_game *g)
 {
+	if (g->ra < 0)
+		g->ra += 2 * M_PI;
+	if (g->ra > 2 * M_PI)
+		g->ra -= 2 * M_PI;
 	g->up = (g->ra > 0 && g->ra < M_PI);
 	g->down = !g->up;
 	g->right = (g->ra < M_PI_2 || g->ra > 3 * M_PI_2);
