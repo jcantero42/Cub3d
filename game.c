@@ -2,6 +2,7 @@
 #include "libft/libft.h"
 #include "mlx_linux/mlx.h"
 #include <stdlib.h>
+#include <math.h>
 
 char	**init_map()
 {
@@ -30,7 +31,7 @@ t_game	*init_game()
 	g->map = init_map();
 	g->width = 5;
 	g->height = 5;
-	g->pa = PI / 2;
+	g->pa = M_PI / 2;
 	g->mlx = mlx_init();
 	g->win = mlx_new_window(g->mlx, WIN_WIDTH, WIN_HEIGHT,  "cubed");
 	return (g);

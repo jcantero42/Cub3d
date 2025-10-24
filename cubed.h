@@ -6,8 +6,6 @@
 
 #define FOV 1.152
 
-#define PI 3.14159265359
-
 #define KEYPRESS 2
 
 #define KEY_ESC 65307
