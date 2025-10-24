@@ -1,5 +1,6 @@
 #include <math.h>
 #include <limits.h>
+#include <stdio.h>
 #include "cubed.h"
 
 void set_direction(t_game *g)
@@ -17,13 +18,17 @@ void set_direction(t_game *g)
 void	set_delta(t_game *g)
 {
 	if (g->right)
-		g->dx = floor(g->px) + 1.0 - g->px;
+		// g->dx = floor(g->px) + 1.0 - g->px;
+		g->dx = 0.5 + (round(g->px) - g->px);
 	else
-		g->dx = g->px - floor(g->px);
+		// g->dx = g->px - floor(g->px);
+		g->dx = 0.5 - (round(g->px) - g->px);
 	if (g->down)
-		g->dy = floor(g->py) + 1.0 - g->py;
+		// g->dy = floor(g->py) + 1.0 - g->py;
+		g->dy = 0.5 + (round(g->py) - g->py);
 	else
-		g->dy = g->py - floor(g->py);
+		// g->dy = g->py - floor(g->py);
+		g->dy = 0.5 - (round(g->py) - g->py);
 }
 
 void	set_steps(t_game *g)
@@ -58,6 +63,7 @@ void	first_intersections(t_game *g)
 		g->vy = g->py + g->dx * fabs(tan(g->ra));
 	else
 		g->vy = g->py - g->dx * fabs(tan(g->ra));
+
 }
 
 void	horizontal_intersection(t_game *g)
@@ -145,6 +151,7 @@ void	cast_rays(t_game *g)
 	g->sa = FOV / WIN_WIDTH;
 	while (i < WIN_WIDTH)
 	{
+		printf("%.1lf, %.1lf)\n", g->px, g->py);
 		set_direction(g);
 		set_delta(g);
 		set_steps(g);
@@ -156,44 +163,4 @@ void	cast_rays(t_game *g)
 		g->ra -= g->sa;
 		i++;
 	}
-}
-
-char	check_horizontal(t_game *g)
-{
-	int	tile_x;
-	int	tile_y;
-
-	if (g->up)
-		tile_y = floor(g->hy);
-	else
-		tile_y = ceil(g->hy);
-	tile_x = round(g->hx);
-	
-    // int tile_x = (int)floor(g->hx);
-    // int tile_y = (int)round(g->hy);
-	if (tile_x > g->width - 1 || tile_x < 0)
-		return ('E');
-	if (tile_y > g->height - 1 || tile_y < 0)
-		return ('E');
-	return (g->map[tile_y][tile_x]);
-}
-
-char	check_vertical(t_game *g)
-{
-	int	tile_x;
-	int	tile_y;
-
-	if (g->right)
-		tile_x = ceil(g->vx);
-	else
-		tile_x = floor(g->vx);
-	tile_y = round(g->vy);
-	
-    // int tile_x = (int)round(g->vx);
-    // int tile_y = (int)floor(g->vy);
-	if (tile_x > g->width - 1 || tile_x < 0)
-		return ('E');
-	if (tile_y > g->height - 1 || tile_y < 0)
-		return ('E');
-	return (g->map[tile_y][tile_x]);
 }

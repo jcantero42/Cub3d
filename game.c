@@ -31,7 +31,7 @@ t_game	*init_game()
 	g->map = init_map();
 	g->width = 5;
 	g->height = 5;
-	g->pa = M_PI / 2;
+	g->pa = 3 * M_PI_2;
 	g->mlx = mlx_init();
 	g->win = mlx_new_window(g->mlx, WIN_WIDTH, WIN_HEIGHT,  "cubed");
 	return (g);
