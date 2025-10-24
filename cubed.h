@@ -24,7 +24,7 @@
 
 #define ROTATE_STEP 0.05
 
-#define PLAYER_BARRIER 0.5
+#define PLAYER_BARRIER 0.3
 
 #define ON_DESTROY 17
 

@@ -18,7 +18,34 @@ void	set_move_angle(t_game *g, int keycode)
 		g->ma += 2 * PI;
 }
 
-// TODO: solve problem when next to wall
+int	check_move(t_game *g, double x, double y)
+{
+	if (g->map[(int)round(y)][(int)round(x)] == '1')
+		return (0);
+	if (g->map[(int)round(y + PLAYER_BARRIER)][(int)round(x + PLAYER_BARRIER)] == '1')
+		return (0);
+	if (g->map[(int)round(y - PLAYER_BARRIER)][(int)round(x - PLAYER_BARRIER)] == '1')
+		return (0);
+	if (g->map[(int)round(y + PLAYER_BARRIER)][(int)round(x - PLAYER_BARRIER)] == '1')
+		return (0);
+	if (g->map[(int)round(y - PLAYER_BARRIER)][(int)round(x + PLAYER_BARRIER)] == '1')
+		return (0);
+	return (1);
+}
+
+void	try_move(t_game *g, double x, double y)
+{
+	if (check_move(g, x, y))
+	{
+		g->px = x;
+		g->py = y;
+	}
+	else if (check_move(g, x, g->py))
+		g->px = x;
+	else if (check_move(g, g->px, y))
+		g->py = y;
+}
+
 void	move_player(t_game *g, int keycode)
 {
 	int	up;
@@ -37,8 +64,5 @@ void	move_player(t_game *g, int keycode)
 		g->npx = g->px - g->nx;
 	else
 		g->npx = g->px + g->nx;
-	if (g->map[(int)round(g->npy)][(int)round(g->npx)] == '1')
-		return ;
-	g->px = g->npx;
-	g->py = g->npy;
+	try_move(g, g->npx, g->npy);
 }
