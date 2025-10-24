@@ -7,11 +7,11 @@ void	set_move_angle(t_game *g, int keycode)
 	if (keycode == KEY_W)
 		g->ma = g->pa;
 	else if (keycode == KEY_A)
-		g->ma = g->pa + M_PI / 2;
+		g->ma = g->pa + M_PI_2;
 	else if (keycode == KEY_S)
 		g->ma = g->pa + M_PI;
 	else if (keycode == KEY_D)
-		g->ma = g->pa + 3 * M_PI / 2;
+		g->ma = g->pa + 3 * M_PI_2;
 	if (g->ma > 2 * M_PI)
 		g->ma -= 2 * M_PI;
 	else if (g->ma < 0)
@@ -48,21 +48,21 @@ void	try_move(t_game *g, double x, double y)
 
 void	move_player(t_game *g, int keycode)
 {
-	int	up;
-	int	left;
+	int	down;
+	int	right;
 
 	set_move_angle(g, keycode);
 	g->nx = PLAYER_STEP * fabs(cos(g->ma));
 	g->ny = PLAYER_STEP * fabs(sin(g->ma));
-	up = g->ma < M_PI && g->ma > 0;
-	left = g->ma > (M_PI / 2) && g->ma < (3 * M_PI / 2);
-	if (up)
-		g->npy = g->py - g->ny;
-	else
+	down = (g->ma >= 0 && g->ma <= M_PI);
+	right = (g->ma <= M_PI_2 || g->ma >= 3 * M_PI_2);
+	if (down)
 		g->npy = g->py + g->ny;
-	if (left)
-		g->npx = g->px - g->nx;
 	else
+		g->npy = g->py - g->ny;
+	if (right)
 		g->npx = g->px + g->nx;
+	else
+		g->npx = g->px - g->nx;
 	try_move(g, g->npx, g->npy);
 }
