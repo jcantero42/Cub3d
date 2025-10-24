@@ -2,12 +2,12 @@
 #include <limits.h>
 #include "cubed.h"
 
-void	set_direction(t_game *g)
+void set_direction(t_game *g)
 {
-	g->up = g->ra < PI && g->ra > 0;
+	g->up = (g->ra > 0 && g->ra < M_PI);
 	g->down = !g->up;
-	g->left = g->ra > (PI / 2) && g->ra < (3 * PI / 2);
-	g->right = !g->left;
+	g->right = (g->ra < M_PI_2 || g->ra > 3 * M_PI_2);
+	g->left = !g->right;
 }
 
 void	set_delta(t_game *g)
