@@ -141,7 +141,7 @@ void	compute_distance(t_game *g)
 		g->fy = g->vy;
 		g->dmin = g->dv;
 	}
-	g->h = (0.5 * WIN_WIDTH) / (2 * g->dmin * fabs(tan(FOV / 2)));
+	g->h = (WIN_WIDTH) / (2 * g->dmin * fabs(tan(FOV / 2)));
 }
 
 void	cast_rays(t_game *g)
