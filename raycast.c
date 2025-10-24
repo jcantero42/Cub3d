@@ -158,17 +158,19 @@ void	cast_rays(t_game *g)
 	}
 }
 
-char	check_vertical(t_game *g)
+char	check_horizontal(t_game *g)
 {
 	int	tile_x;
 	int	tile_y;
 
-	tile_x = (int)g->vx;
-	if (!g->right)
-		tile_x -= 1;
-	tile_y = (int)g->vy;
-	if (!g->down)
-		tile_y -= 1;
+	if (g->up)
+		tile_y = floor(g->hy);
+	else
+		tile_y = ceil(g->hy);
+	tile_x = round(g->hx);
+	
+    // int tile_x = (int)floor(g->hx);
+    // int tile_y = (int)round(g->hy);
 	if (tile_x > g->width - 1 || tile_x < 0)
 		return ('E');
 	if (tile_y > g->height - 1 || tile_y < 0)
@@ -176,17 +178,19 @@ char	check_vertical(t_game *g)
 	return (g->map[tile_y][tile_x]);
 }
 
-char	check_horizontal(t_game *g)
+char	check_vertical(t_game *g)
 {
 	int	tile_x;
 	int	tile_y;
 
-	tile_x = (int)g->hx;
-	if (!g->right)
-		tile_x -= 1;
-	tile_y = (int)g->hy;
-	if (!g->down)
-		tile_y -= 1;
+	if (g->right)
+		tile_x = ceil(g->vx);
+	else
+		tile_x = floor(g->vx);
+	tile_y = round(g->vy);
+	
+    // int tile_x = (int)round(g->vx);
+    // int tile_y = (int)floor(g->vy);
 	if (tile_x > g->width - 1 || tile_x < 0)
 		return ('E');
 	if (tile_y > g->height - 1 || tile_y < 0)
