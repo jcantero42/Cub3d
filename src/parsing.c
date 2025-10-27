@@ -9,11 +9,13 @@ int	parse_file(char	*filename, t_game *game)
 		return (0);
 	if (!parse_config(fd, game))
 		return (0);
+	if (!parse_map(fd, game))
+		return (0);
 	return (1);
 }
 
 
-int	parse_config(int fd, t_game *game)
+int	parse_config(char *filename, t_game *game)
 {
 	char	*line;
 
@@ -142,4 +144,105 @@ int	count_split(char **split)
 	while (split && split[i])
 		i++;
 	return (i);
+}
+
+int	parse_map(char *filename, t_game *game)
+{
+	if (!create_map(filename, game))
+		return (0);
+	return (1);
+}
+
+int	create_map(int fd, t_game *game)
+{
+	char	*line;
+	int		started;
+	t_list	*list;
+
+	started = 0;
+	list = NULL;
+	while ((line = get_next_line(fd)) != NULL)
+	{
+		if (is_empty_line(line))
+		{
+			if (started)
+			{
+				ft_lstclear(&list, free);
+				free(line);
+				return (0);
+			}
+			free(line);
+			continue;
+		}
+		started = 1;
+		ft_lstadd_back(&list, ft_lstnew(ft_strdup(line)));
+		free(line);
+	}
+	if (!list)
+		return (0);
+	game->map = list_to_array(list);
+	ft_lstclear(&list, free);
+	if (!game->map)
+		return (0);
+	return(1);
+}
+
+int	is_config_line(char *line)
+{
+	char *trimmed;
+
+	trimmed = ft_strtrim(line, " \n\t");
+	if (!trimmed)
+		return (0);
+	if (!ft_strncmp(trimmed, "NO ", 3) || !ft_strncmp(trimmed, "SO ", 3) ||
+		!ft_strncmp(trimmed, "WE ", 3) || !ft_strncmp(trimmed, "EA ", 3) ||
+		!ft_strncmp(trimmed, "F ", 2)  || !ft_strncmp(trimmed, "C ", 2))
+	{
+		free(trimmed);
+		return (1);
+	}
+	free(trimmed);
+	return (0);
+}
+
+int	is_empty_line(char *line)
+{
+	int	i;
+
+	i = 0;
+	while (line[i])
+	{
+		if (line[i] != ' ' && line[i] != '\n' && line[i] != '\t')
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+char **list_to_array(t_list *list)
+{
+	char	**map;
+	int		count;
+	int		i;
+	t_list	*temp;
+
+	i = 0;
+	count = 0;
+	temp = list;
+	while (temp)
+	{
+		++count;
+		temp = temp->next;
+	}
+	map = malloc(sizeof(char *) * (count + 1));
+	if (!map)
+		return (NULL);
+	while (list)
+	{
+		map[i] = ft_strdup((char *)list->content);
+		++i;
+		list = list->next;
+	}
+	map[i] = NULL;
+	return (map);
 }

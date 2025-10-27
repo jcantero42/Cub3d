@@ -17,7 +17,7 @@ typedef struct s_game
 	int		ceiling_color;
 	double	player_x;
 	double	player_y;
-	char	*map;
+	char	**map;
 	int		width;
 	int		height;
 } t_game;
@@ -31,6 +31,12 @@ int 	ft_strcmp(const char *s1, const char *s2);
 void	free_split(char **split);
 int		parse_color(char *color_str);
 int		count_split(char **split);
+int		parse_map(int fd, t_game *game);
+int		create_map(char *filename, t_game *game);
+int		is_config_line(char *line);
+int		is_empty_line(char *line);
+char	**list_to_array(t_list *list);
+
 
 
 
