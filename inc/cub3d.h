@@ -23,10 +23,15 @@ typedef struct s_game
 } t_game;
 
 int		validate_args(int ac, char **av);
-int		parse_file(char *filename, t_game *game);
+int		parse_file(char	*filename, t_game *game);
+int		parse_config(int fd, t_game *game);
 int		parse_config_line(char *line, t_game *game);
 int		config_is_complete(t_game *game);
 int 	ft_strcmp(const char *s1, const char *s2);
+void	free_split(char **split);
+int		parse_color(char *color_str);
+int		count_split(char **split);
+
 
 
 
