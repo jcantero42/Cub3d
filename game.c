@@ -34,5 +34,6 @@ t_game	*init_game()
 	g->pa = 3 * M_PI_2;
 	g->mlx = mlx_init();
 	g->win = mlx_new_window(g->mlx, WIN_WIDTH, WIN_HEIGHT,  "cubed");
+	g->no_img = mlx_xpm_file_to_image(g->mlx, "./textures/sample.xpm", &g->no_w, &g->no_h);
 	return (g);
 }

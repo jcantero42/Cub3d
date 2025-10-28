@@ -144,6 +144,18 @@ void	compute_distance(t_game *g)
 	g->h = (WIN_WIDTH) / (2 * g->dmin * fabs(tan(FOV / 2)));
 }
 
+void	set_cardinal(t_game *g)
+{
+	if (g->up && g->dmin == g->dh)
+		g->dir = NORTH;
+	else if (g->down && g->dmin == g->dh)
+		g->dir = SOUTH;
+	else if (g->right && g->dmin == g->dv)
+		g->dir = WEST;
+	else if (g->left && g->dmin == g->dv)
+		g->dir = EAST;
+}
+
 void	cast_rays(t_game *g)
 {
 	int i = 0;
@@ -151,7 +163,6 @@ void	cast_rays(t_game *g)
 	g->sa = FOV / WIN_WIDTH;
 	while (i < WIN_WIDTH)
 	{
-		printf("%.1lf, %.1lf)\n", g->px, g->py);
 		set_direction(g);
 		set_delta(g);
 		set_steps(g);
@@ -159,6 +170,7 @@ void	cast_rays(t_game *g)
 		horizontal_intersection(g);
 		vertical_intersection(g);
 		compute_distance(g);
+		set_cardinal(g);
 		paint_column(g, i, g->h);
 		g->ra -= g->sa;
 		i++;

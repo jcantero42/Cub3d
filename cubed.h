@@ -1,6 +1,7 @@
 #ifndef CUBED_H
 # define CUBED_H
 
+#include "mlx_int.h"
 #define WIN_WIDTH 640
 #define WIN_HEIGHT 480
 
@@ -26,12 +27,21 @@
 
 #define ON_DESTROY 17
 
+typedef enum e_dir
+{
+	NORTH, SOUTH, EAST, WEST,
+} t_dir;
+
 typedef struct s_game
 {
 	char	*no_texture;
 	char	*so_texture;
 	char	*ea_texture;
 	char	*we_texture;
+
+	t_img	*no_img;
+	int		no_w;
+	int		no_h;
 
 	int		floor_color;
 	int		ceiling_color;
@@ -81,6 +91,8 @@ typedef struct s_game
 	double	npy; // new player y
 	
 	double	ds; // distance screen
+	
+	t_dir	dir;
 
 	void	*mlx;
 	void	*win;
@@ -93,6 +105,7 @@ typedef struct s_game
 } t_game;
 
 void	pixel_put(t_game *g, int x, int y, int color);
+int	pixel_get(t_img	*img, int x, int y);
 void	paint_column(t_game *g, int x, int h);
 
 char	**init_map();
