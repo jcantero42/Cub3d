@@ -8,16 +8,21 @@ char	**init_map()
 {
 	char	**map;
 
-	map = (char **)malloc(5 * sizeof(char *));
-	for (int i = 0; i < 5; i++)
+	map = (char **)malloc(13 * sizeof(char *));
+	for (int i = 0; i < 13; i++)
 	{
-		map[i] = (char *)malloc(6 * sizeof(char));
+		map[i] = (char *)malloc(13 * sizeof(char));
 	}
-	ft_strlcpy(map[0], "11111", 6);
-	ft_strlcpy(map[1], "10101", 6);
-	ft_strlcpy(map[2], "10001", 6);
-	ft_strlcpy(map[3], "10001", 6);
-	ft_strlcpy(map[4], "11111", 6);
+	ft_strlcpy(map[0], "1111111111", 11);
+	ft_strlcpy(map[1], "1000000001", 11);
+	ft_strlcpy(map[2], "1001000001", 11);
+	ft_strlcpy(map[3], "1000000001", 11);
+	ft_strlcpy(map[4], "1000000111", 11);
+	ft_strlcpy(map[5], "1000000001", 11);
+	ft_strlcpy(map[6], "1010000111", 11);
+	ft_strlcpy(map[7], "1000000001", 11);
+	ft_strlcpy(map[8], "1000000001", 11);
+	ft_strlcpy(map[9], "1111111111", 11);
 	return (map);
 }
 
@@ -29,8 +34,8 @@ t_game	*init_game()
 	g->px = 2;
 	g->py = 3;
 	g->map = init_map();
-	g->width = 5;
-	g->height = 5;
+	g->width = 10;
+	g->height = 10;
 	g->pa = 3 * M_PI_2;
 	g->mlx = mlx_init();
 	g->win = mlx_new_window(g->mlx, WIN_WIDTH, WIN_HEIGHT,  "cubed");
