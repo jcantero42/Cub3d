@@ -43,6 +43,18 @@ typedef struct s_game
 	int		no_w;
 	int		no_h;
 
+	t_img	*so_img;
+	int		so_w;
+	int		so_h;
+
+	t_img	*ea_img;
+	int		ea_w;
+	int		ea_h;
+
+	t_img	*we_img;
+	int		we_w;
+	int		we_h;
+
 	int		floor_color;
 	int		ceiling_color;
 
@@ -117,5 +129,9 @@ int	update_game(int keycode, t_game *g);
 int	terminate(t_game *g);
 void	move_player(t_game *g, int keycode);
 void	rotate_perspective(t_game *g, int keycode);
+void	no_pixel_put(t_game *g, int i, int x);
+void	so_pixel_put(t_game *g, int i, int x);
+void	ea_pixel_put(t_game *g, int i, int x);
+void	we_pixel_put(t_game *g, int i, int x);
 
 #endif

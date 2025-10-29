@@ -40,22 +40,13 @@ void	paint_column(t_game *g, int x, int h)
 	while (i < ft_min(WIN_HEIGHT / 2 + h / 2, WIN_HEIGHT))
 	{
 		if (g->dir == NORTH)
-		{
-			double ry;
-			double rx;
-
-			ry = (i - (WIN_HEIGHT / 2.0 - h / 2.0)) / (double)h;
-			rx = 0.5 + (round(g->hx) - g->hx);
-			// printf("%.3lf, %.3lf\n", rx, ry);
-			// pixel_put(g, x, i, 0x00FF0000);
-			pixel_put(g, x, i, pixel_get(g->no_img, round(g->no_img->width * rx + 0), round(g->no_img->height * ry + 0)));
-		}
+			no_pixel_put(g, i, x);
 		else if (g->dir == SOUTH)
-			pixel_put(g, x, i, 0x000000FF);
+			so_pixel_put(g, i, x);
 		else if (g->dir == WEST)
-			pixel_put(g, x, i, 0X00FFA500);
+			ea_pixel_put(g, i, x);
 		else if (g->dir == EAST)
-			pixel_put(g, x, i, 0x0000FF00);
+			we_pixel_put(g, i, x);
 		i++;
 	}
 }
