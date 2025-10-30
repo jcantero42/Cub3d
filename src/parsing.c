@@ -15,7 +15,7 @@ int	parse_file(char	*filename, t_game *game)
 }
 
 
-int	parse_config(char *filename, t_game *game)
+int	parse_config(int fd, t_game *game)
 {
 	char	*line;
 
@@ -33,7 +33,6 @@ int	parse_config(char *filename, t_game *game)
 		close(fd);
 		return (0);
 	}
-	close(fd);
 	return (1);
 }
 
@@ -146,9 +145,11 @@ int	count_split(char **split)
 	return (i);
 }
 
-int	parse_map(char *filename, t_game *game)
+int	parse_map(int fd, t_game *game)
 {
-	if (!create_map(filename, game))
+	if (!create_map(fd, game))
+		return (0);
+	if (!valid_map(game))
 		return (0);
 	return (1);
 }
@@ -185,6 +186,17 @@ int	create_map(int fd, t_game *game)
 	if (!game->map)
 		return (0);
 	return(1);
+}
+
+int	valid_map(t_game *game)
+{
+	int	i;
+	int j;
+	
+	if (!trim_map_lines(game))
+		return (0);
+	if ()
+	return (1);
 }
 
 int	is_config_line(char *line)
@@ -245,4 +257,25 @@ char **list_to_array(t_list *list)
 	}
 	map[i] = NULL;
 	return (map);
+}
+
+int trim_map_lines(t_game *game)
+{
+	int i;
+
+	i = -1;
+	while (game->map[++i])
+	{	
+		game->map[i] = ft_strtrim(game->map[i], "\n");
+		if (!game->map[i])
+			return (0);
+	}
+	return (1);
+}
+
+int	ft_isspace(char c)
+{
+	if (c == ' ' || (c >= 9 && c <= 13))
+		return (1);
+	return (0);
 }

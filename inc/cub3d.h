@@ -32,10 +32,15 @@ void	free_split(char **split);
 int		parse_color(char *color_str);
 int		count_split(char **split);
 int		parse_map(int fd, t_game *game);
-int		create_map(char *filename, t_game *game);
+int		create_map(int fd, t_game *game);
 int		is_config_line(char *line);
 int		is_empty_line(char *line);
 char	**list_to_array(t_list *list);
+int		valid_map(t_game *game);
+int		trim_map_lines(t_game *game);
+int		check_first_and_last_line(char *line);
+int		ft_isspace(char c);
+int		check_other_lines(char *line);
 
 
 
