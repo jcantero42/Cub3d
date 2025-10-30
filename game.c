@@ -26,13 +26,12 @@ char	**init_map()
 	return (map);
 }
 
-t_game	*init_game()
+void	init_game(t_game *g)
 {
-	t_game	*g;
 	
-	g = (t_game *)malloc(sizeof(t_game));
-	g->px = 3;
-	g->py = 3;
+	// g = (t_game *)malloc(sizeof(t_game));
+	// g->px = 3;
+	// g->py = 3;
 	// g->map = init_map();
 	// g->width = 10;
 	// g->height = 10;
@@ -43,5 +42,4 @@ t_game	*init_game()
 	g->so_img = mlx_xpm_file_to_image(g->mlx, "./textures/south.xpm", &g->so_w, &g->so_h);
 	g->ea_img = mlx_xpm_file_to_image(g->mlx, "./textures/east.xpm", &g->ea_w, &g->ea_h);
 	g->we_img = mlx_xpm_file_to_image(g->mlx, "./textures/west.xpm", &g->we_w, &g->we_h);
-	return (g);
 }

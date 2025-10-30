@@ -124,7 +124,7 @@ int	pixel_get(t_img	*img, int x, int y);
 void	paint_column(t_game *g, int x, int h);
 
 char	**init_map();
-t_game	*init_game();
+void	init_game(t_game *g);
 char	check_vertical(t_game *g);
 char	check_horizontal(t_game *g);
 void	cast_rays(t_game *g);

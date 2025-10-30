@@ -26,18 +26,12 @@ int main(int ac, char **av)
 {
 	t_game	*g;
 
-	
-	g = init_game();
+	g = (t_game *)malloc(sizeof(t_game));
 	if (!validate_args(ac, av))
 		return (printf("Invalid arguments. Try again\n"), 1);	
-	// init_struct(g);
 	if (!parse_file(av[1], g))
 		return (printf("Error with parsing\n"), 1);
-	// printf("hola\n");
-	// for (int i = 0; g->map[i]; i++)
-	// {
-	// 	printf("%s$\n", g->map[i]);
-	// }
+	init_game(g);
 	printf("hola\n");
 	mlx_hook(g->win, KEYPRESS, 1L<<0, update_game, g);
 	printf("adios\n");
