@@ -1,4 +1,4 @@
-#include "../inc/cub3d.h"
+#include "../cubed.h"
 
 int	parse_file(char	*filename, t_game *game)
 {
@@ -181,7 +181,7 @@ int	create_map(int fd, t_game *game)
 	}
 	if (!list)
 		return (0);
-	game->map = list_to_array(list);
+	game->map = list_to_array(list, game);
 	ft_lstclear(&list, free);
 	if (!game->map)
 		return (0);
@@ -190,8 +190,6 @@ int	create_map(int fd, t_game *game)
 
 int	valid_map(t_game *game)
 {
-	int i;
-	
 	if (!trim_map_lines(game))
 		return (0);
 	if (!normalize_lines(game))
@@ -215,6 +213,7 @@ int	normalize_lines(t_game *game)
 		if (len > max_len)
 			max_len = len;
 	}
+	game->width = max_len;
 	i = -1;
 	while (game->map[++i])
 	{
@@ -280,7 +279,7 @@ int	is_empty_line(char *line)
 	return (1);
 }
 
-char **list_to_array(t_list *list)
+char **list_to_array(t_list *list, t_game *g)
 {
 	char	**map;
 	int		count;
@@ -296,6 +295,7 @@ char **list_to_array(t_list *list)
 		temp = temp->next;
 	}
 	map = malloc(sizeof(char *) * (count + 1));
+	g->height = count;
 	if (!map)
 		return (NULL);
 	while (list)

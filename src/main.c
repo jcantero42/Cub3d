@@ -1,4 +1,4 @@
-#include "../inc/cub3d.h"
+#include "../cubed.h"
 
 int	validate_args(int ac, char **av)
 {
@@ -19,13 +19,13 @@ void	init_struct(t_game *game)
 	game->floor_color = -1;
 }
 
-int main(int ac, char **av)
-{
-	t_game game;
+// int main(int ac, char **av)
+// {
+// 	t_game game;
 
-	if (!validate_args(ac, av))
-		return (printf("Invalid arguments. Try again\n"), 1);	
-	init_struct(&game);
-	if (!parse_file(av[1], &game))
-		return (printf("Error with parsing\n"), 1);
-}
+// 	if (!validate_args(ac, av))
+// 		return (printf("Invalid arguments. Try again\n"), 1);	
+// 	init_struct(&game);
+// 	if (!parse_file(av[1], &game))
+// 		return (printf("Error with parsing\n"), 1);
+// }

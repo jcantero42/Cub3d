@@ -31,11 +31,11 @@ t_game	*init_game()
 	t_game	*g;
 	
 	g = (t_game *)malloc(sizeof(t_game));
-	g->px = 2;
+	g->px = 3;
 	g->py = 3;
-	g->map = init_map();
-	g->width = 10;
-	g->height = 10;
+	// g->map = init_map();
+	// g->width = 10;
+	// g->height = 10;
 	g->pa = 3 * M_PI_2;
 	g->mlx = mlx_init();
 	g->win = mlx_new_window(g->mlx, WIN_WIDTH, WIN_HEIGHT,  "cubed");

@@ -2,6 +2,8 @@
 # define CUBED_H
 
 #include "mlx_int.h"
+#include "libft/libft.h"
+
 #define WIN_WIDTH 640
 #define WIN_HEIGHT 480
 
@@ -133,5 +135,27 @@ void	no_pixel_put(t_game *g, int i, int x);
 void	so_pixel_put(t_game *g, int i, int x);
 void	ea_pixel_put(t_game *g, int i, int x);
 void	we_pixel_put(t_game *g, int i, int x);
+
+int	parse_file(char	*filename, t_game *game);
+int	parse_config(int fd, t_game *game);
+int parse_config_line(char *line, t_game *game);
+void free_split(char **split);
+int	config_is_complete(t_game *game);
+int	config_is_complete(t_game *game);
+int ft_strcmp(const char *s1, const char *s2);
+int	parse_color(char *color_str);
+int	count_split(char **split);
+int	parse_map(int fd, t_game *game);
+int	create_map(int fd, t_game *game);
+int	valid_map(t_game *game);
+int	normalize_lines(t_game *game);
+char	*create_spaces(int n);
+int	is_config_line(char *line);
+int	is_empty_line(char *line);
+char **list_to_array(t_list *list, t_game *g);
+int trim_map_lines(t_game *game);
+int	ft_isspace(char c);
+void	init_struct(t_game *game);
+int	validate_args(int ac, char **av);
 
 #endif
