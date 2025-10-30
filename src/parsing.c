@@ -194,7 +194,52 @@ int	valid_map(t_game *game)
 		return (0);
 	if (!normalize_lines(game))
 		return (0);
+	if (!check_elements(game))
+		return (0);
 	return (1);
+}
+
+int	check_elements(t_game *game)
+{
+	int	i;
+	int	j;
+	int	p_count;
+
+	i = -1;
+	p_count = 0;
+	while (game->map[++i])
+	{
+		j = -1;
+		while (game->map[i][++j])
+		{
+			if (game->map[i][j] == '0' || game->map[i][j] == '1' || game->map[i][j] == ' ')
+				continue;
+			else if (game->map[i][j] == 'N' || game->map[i][j] == 'S'
+				|| game->map[i][j] == 'E' || game->map[i][j] == 'W')
+				assign_dir_and_pos(game, i, j, &p_count);
+			else
+				return (0);
+		}
+	}
+	if (p_count != 1)
+		return (0);
+	return (1);
+}
+
+void	assign_dir_and_pos(t_game *game, int i, int j, int *p_count)
+{
+	if (game->map[i][j] == 'N')
+		game->start_direction = NORTH;
+	if (game->map[i][j] == 'S')
+		game->start_direction = SOUTH;
+	if (game->map[i][j] == 'E')
+		game->start_direction = EAST;
+	if (game->map[i][j] == 'W')
+		game->start_direction = WEST;
+	game->px = j;
+	game->py = i;
+	game->map[i][j] = '0';
+	(*p_count)++;
 }
 
 int	normalize_lines(t_game *game)

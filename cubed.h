@@ -68,6 +68,7 @@ typedef struct s_game
 	double	py; // player y
 	
 	double	pa; // player angle
+	t_dir	start_direction;
 	double	ra; // ray angle
 
 	int		right;
@@ -157,5 +158,7 @@ int trim_map_lines(t_game *game);
 int	ft_isspace(char c);
 void	init_struct(t_game *game);
 int	validate_args(int ac, char **av);
+int	check_elements(t_game *game);
+void	assign_dir_and_pos(t_game *game, int i, int j, int *p_count);
 
 #endif
