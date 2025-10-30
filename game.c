@@ -36,6 +36,22 @@ void	init_game(t_game *g)
 	// g->width = 10;
 	// g->height = 10;
 	g->pa = 3 * M_PI_2;
+	if (g->start_direction == NORTH)
+	{
+		g->pa = 3 * M_PI_2;
+	}
+	else if (g->start_direction == SOUTH)
+	{
+		g->pa = M_PI_2;
+	}
+	else if (g->start_direction == EAST)
+	{
+		g->pa = 0;
+	}
+	else if (g->start_direction == WEST)
+	{
+		g->pa = M_PI;
+	}
 	g->mlx = mlx_init();
 	g->win = mlx_new_window(g->mlx, WIN_WIDTH, WIN_HEIGHT,  "cubed");
 	g->no_img = mlx_xpm_file_to_image(g->mlx, "./textures/north.xpm", &g->no_w, &g->no_h);
