@@ -190,13 +190,62 @@ int	create_map(int fd, t_game *game)
 
 int	valid_map(t_game *game)
 {
-	int	i;
-	int j;
+	int i;
 	
 	if (!trim_map_lines(game))
 		return (0);
-	if ()
+	if (!normalize_lines(game))
+		return (0);
 	return (1);
+}
+
+int	normalize_lines(t_game *game)
+{
+	int		i;
+	int		max_len;
+	int		len;
+	char	*spaces;
+	char	*normalized;
+
+	i = -1;
+	max_len = 0;
+	while (game->map[++i])
+	{
+		len = ft_strlen(game->map[i]);
+		if (len > max_len)
+			max_len = len;
+	}
+	i = -1;
+	while (game->map[++i])
+	{
+		len = ft_strlen(game->map[i]);
+		if (len == max_len)
+			continue;
+		spaces = create_spaces(max_len - len);
+		if (!spaces)
+			return (0);
+		normalized = ft_strjoin(game->map[i], spaces);
+		if (!normalized)
+			return (0);
+		free(game->map[i]);
+		game->map[i] = normalized;
+	}
+	return (1);
+}
+
+char	*create_spaces(int n)
+{
+	int i;
+	char	*spaces;
+
+	spaces = malloc(sizeof(char ) * (n + 1));
+	if (!spaces)
+		return (NULL);
+	i = -1;
+	while (++i < n)
+		spaces[i] = ' ';
+	spaces[i] = '\0';
+	return (spaces);
 }
 
 int	is_config_line(char *line)

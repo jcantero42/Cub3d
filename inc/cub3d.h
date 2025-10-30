@@ -41,6 +41,8 @@ int		trim_map_lines(t_game *game);
 int		check_first_and_last_line(char *line);
 int		ft_isspace(char c);
 int		check_other_lines(char *line);
+int		normalize_lines(t_game *game);
+char	*create_spaces(int n);
 
 
 
