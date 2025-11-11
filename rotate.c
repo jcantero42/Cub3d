@@ -5,9 +5,9 @@
 void	rotate_perspective(t_game *g, int keycode)
 {
 	if (keycode == KEY_LEFT)
-		g->pa += ROTATE_STEP;
+		g->pa += ROTATE_SPEED * g->ms;
 	else if (keycode == KEY_RIGHT)
-		g->pa -= ROTATE_STEP;
+		g->pa -= ROTATE_SPEED * g->ms;
 	if (g->pa > 2 * M_PI)
 		g->pa -= 2 * M_PI;
 	else if (g->pa < 0)

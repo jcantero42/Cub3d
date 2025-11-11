@@ -2,10 +2,12 @@
 #include "cubed.h"
 #include <limits.h>
 #include <stdlib.h>
+#include <sys/time.h>
+#include "libft/libft.h"
 
 int	game_loop(t_game *g)
 {
-
+	time_diff(g);
 	g->img = mlx_new_image(g->mlx, WIN_WIDTH, WIN_HEIGHT);
 	g->addr = mlx_get_data_addr(g->img, &g->bpp, &g->line_len, &g->endian);
 	cast_rays(g);

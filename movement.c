@@ -52,8 +52,10 @@ void	move_player(t_game *g, int keycode)
 	int	right;
 
 	set_move_angle(g, keycode);
-	g->nx = PLAYER_STEP * fabs(cos(g->ma));
-	g->ny = PLAYER_STEP * fabs(sin(g->ma));
+	g->nx = PLAYER_SPEED * g->ms * fabs(cos(g->ma));
+	g->ny = PLAYER_SPEED * g->ms * fabs(sin(g->ma));
+	if (g->nx < 0 || g->nx > g->width || g->ny < 0 || g->ny > g->height)
+		return ;
 	down = (g->ma >= 0 && g->ma <= M_PI);
 	right = !(g->ma <= M_PI_2 || g->ma >= 3 * M_PI_2);
 	if (down)

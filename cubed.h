@@ -3,6 +3,7 @@
 
 #include "mlx_int.h"
 #include "libft/libft.h"
+#include <sys/time.h>
 
 #define WIN_WIDTH 640
 #define WIN_HEIGHT 480
@@ -21,9 +22,9 @@
 #define KEY_LEFT 65361
 #define KEY_RIGHT 65363
 
-#define PLAYER_STEP 0.05
+#define PLAYER_SPEED 0.008
 
-#define ROTATE_STEP 0.05
+#define ROTATE_SPEED 0.008
 
 #define PLAYER_BARRIER 0.3
 
@@ -107,6 +108,10 @@ typedef struct s_game
 	
 	double	ds; // distance screen
 	
+	struct timeval	then; // last frame time
+	struct timeval	now; // curent frame time
+	long		ms; // frame time diff in ms
+	
 	t_dir	dir;
 
 	void	*mlx;
@@ -136,6 +141,8 @@ void	no_pixel_put(t_game *g, int i, int x);
 void	so_pixel_put(t_game *g, int i, int x);
 void	ea_pixel_put(t_game *g, int i, int x);
 void	we_pixel_put(t_game *g, int i, int x);
+void	print_map(t_game *g);
+void	time_diff(t_game *g);
 
 int	parse_file(char	*filename, t_game *game);
 int	parse_config(int fd, t_game *game);
@@ -160,6 +167,5 @@ void	init_struct(t_game *game);
 int	validate_args(int ac, char **av);
 int	check_elements(t_game *game);
 void	assign_dir_and_pos(t_game *game, int i, int j, int *p_count);
-void	print_map(t_game *g);
 
 #endif

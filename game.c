@@ -3,6 +3,7 @@
 #include "mlx_linux/mlx.h"
 #include <stdlib.h>
 #include <math.h>
+#include <sys/time.h>
 
 char	**init_map()
 {
@@ -52,6 +53,7 @@ void	init_game(t_game *g)
 	{
 		g->pa = M_PI;
 	}
+	gettimeofday(&g->then, NULL);
 	g->mlx = mlx_init();
 	g->win = mlx_new_window(g->mlx, WIN_WIDTH, WIN_HEIGHT,  "cubed");
 	g->no_img = mlx_xpm_file_to_image(g->mlx, "./textures/north.xpm", &g->no_w, &g->no_h);
