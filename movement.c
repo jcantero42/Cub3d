@@ -55,7 +55,7 @@ void	move_player(t_game *g, int keycode)
 	g->nx = PLAYER_STEP * fabs(cos(g->ma));
 	g->ny = PLAYER_STEP * fabs(sin(g->ma));
 	down = (g->ma >= 0 && g->ma <= M_PI);
-	right = (g->ma <= M_PI_2 || g->ma >= 3 * M_PI_2);
+	right = !(g->ma <= M_PI_2 || g->ma >= 3 * M_PI_2);
 	if (down)
 		g->npy = g->py + g->ny;
 	else

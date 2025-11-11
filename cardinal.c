@@ -7,7 +7,7 @@ void	no_pixel_put(t_game *g, int i, int x)
 	double x_ratio;
 
 	y_ratio = (i - (WIN_HEIGHT / 2.0 - g->h / 2.0)) / (double)g->h;
-	x_ratio = 0.5 + (round(g->hx) - g->hx);
+	x_ratio = 0.5 - (round(g->hx) - g->hx);
 	pixel_put(g, x, i, pixel_get(g->no_img, round(g->no_img->width * x_ratio), round(g->no_img->height * y_ratio)));
 
 }
@@ -18,7 +18,7 @@ void	so_pixel_put(t_game *g, int i, int x)
 	double x_ratio;
 
 	y_ratio = (i - (WIN_HEIGHT / 2.0 - g->h / 2.0)) / (double)g->h;
-	x_ratio = 0.5 - (round(g->hx) - g->hx);
+	x_ratio = 0.5 + (round(g->hx) - g->hx);
 	pixel_put(g, x, i, pixel_get(g->so_img, round(g->so_img->width * x_ratio), round(g->so_img->height * y_ratio)));
 
 }

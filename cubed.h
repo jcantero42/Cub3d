@@ -160,5 +160,6 @@ void	init_struct(t_game *game);
 int	validate_args(int ac, char **av);
 int	check_elements(t_game *game);
 void	assign_dir_and_pos(t_game *game, int i, int j, int *p_count);
+void	print_map(t_game *g);
 
 #endif

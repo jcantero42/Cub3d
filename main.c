@@ -32,9 +32,7 @@ int main(int ac, char **av)
 	if (!parse_file(av[1], g))
 		return (printf("Error with parsing\n"), 1);
 	init_game(g);
-	printf("hola\n");
 	mlx_hook(g->win, KEYPRESS, 1L<<0, update_game, g);
-	printf("adios\n");
 	mlx_loop_hook(g->mlx, game_loop, g);
 	mlx_hook(g->win, ON_DESTROY, 0L, terminate, g);
 	mlx_loop(g->mlx);

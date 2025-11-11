@@ -11,8 +11,8 @@ void set_direction(t_game *g)
 		g->ra -= 2 * M_PI;
 	g->down = (g->ra >= 0 && g->ra <= M_PI);
 	g->up = !g->down;
-	g->right = (g->ra <= M_PI_2 || g->ra >= 3 * M_PI_2);
-	g->left = !g->right;
+	g->left = (g->ra <= M_PI_2 || g->ra >= 3 * M_PI_2);
+	g->right = !g->left;
 }
 
 void	set_delta(t_game *g)

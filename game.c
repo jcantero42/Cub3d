@@ -44,11 +44,11 @@ void	init_game(t_game *g)
 	{
 		g->pa = M_PI_2;
 	}
-	else if (g->start_direction == EAST)
+	else if (g->start_direction == WEST)
 	{
 		g->pa = 0;
 	}
-	else if (g->start_direction == WEST)
+	else if (g->start_direction == EAST)
 	{
 		g->pa = M_PI;
 	}

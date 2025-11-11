@@ -43,9 +43,9 @@ void	paint_column(t_game *g, int x, int h)
 			no_pixel_put(g, i, x);
 		else if (g->dir == SOUTH)
 			so_pixel_put(g, i, x);
-		else if (g->dir == WEST)
-			ea_pixel_put(g, i, x);
 		else if (g->dir == EAST)
+			ea_pixel_put(g, i, x);
+		else if (g->dir == WEST)
 			we_pixel_put(g, i, x);
 		i++;
 	}
