@@ -143,6 +143,9 @@ void	ea_pixel_put(t_game *g, int i, int x);
 void	we_pixel_put(t_game *g, int i, int x);
 void	print_map(t_game *g);
 void	time_diff(t_game *g);
+int	within_boundaries(t_game *g, int x, int y);
+int	walled_map(t_game *g, int x, int y);
+void	restore_map(t_game *g, int x, int y);
 
 int	parse_file(char	*filename, t_game *game);
 int	parse_config(int fd, t_game *game);

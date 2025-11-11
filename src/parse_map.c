@@ -72,5 +72,8 @@ int	valid_map(t_game *game)
 		return (0);
 	if (!check_elements(game))
 		return (0);
+	if (!walled_map(game, game->px, game->py))
+		return (0);
+	restore_map(game, game->px, game->py);
 	return (1);
 }

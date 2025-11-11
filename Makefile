@@ -1,6 +1,7 @@
 NAME = cub3D
 
 SRC = main.c paint.c check.c game.c raycast.c hook.c movement.c rotate.c cardinal.c debug.c time.c \
+	  flood.c \
 	  src/parse_file.c src/parse_map.c src/parse_utils_1.c src/parse_utils_2.c src/valid_map.c
 
 OBJS = $(SRC:.c=.o)
