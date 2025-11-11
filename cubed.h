@@ -167,5 +167,8 @@ void	init_struct(t_game *game);
 int	validate_args(int ac, char **av);
 int	check_elements(t_game *game);
 void	assign_dir_and_pos(t_game *game, int i, int j, int *p_count);
+int	parse_color_line(char *value, t_game *game, char type);
+int	process_map_line(char *line, t_list **list, int *started);
+int	get_max_len(t_game *game);
 
 #endif

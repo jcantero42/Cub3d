@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jcantero <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/11 13:13:51 by jcantero          #+#    #+#             */
+/*   Updated: 2025/11/11 13:14:05 by jcantero         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "mlx_linux/mlx.h"
 #include "cubed.h"
 #include <limits.h>
@@ -24,7 +36,26 @@ int	terminate(t_game *g)
 	exit(0);
 }
 
-int main(int ac, char **av)
+int	validate_args(int ac, char **av)
+{
+	char	*format;
+
+	if (ac != 2)
+		return (0);
+	format = ft_strrchr(av[1], '.');
+	if (!format || ft_strncmp(format, ".cub", 4) != 0 || format[4] != '\0')
+		return (0);
+	return (1);
+}
+
+void	init_struct(t_game *game)
+{
+	ft_memset(game, 0, sizeof(t_game));
+	game->ceiling_color = -1;
+	game->floor_color = -1;
+}
+
+int	main(int ac, char **av)
 {
 	t_game	*g;
 
