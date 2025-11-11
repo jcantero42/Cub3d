@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parsing.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jcantero <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/11 13:35:05 by jcantero          #+#    #+#             */
+/*   Updated: 2025/11/11 13:35:07 by jcantero         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../cubed.h"
 
-int	parse_file(char	*filename, t_game *game)
+int	parse_file(char *filename, t_game *game)
 {
-	int fd;
+	int	fd;
 
 	fd = open(filename, O_RDONLY);
 	if (fd == -1)
@@ -14,19 +26,20 @@ int	parse_file(char	*filename, t_game *game)
 	return (1);
 }
 
-
 int	parse_config(int fd, t_game *game)
 {
 	char	*line;
 
-	while ((line = get_next_line(fd)) != NULL)
+	line = get_next_line(fd);
+	while (line != NULL)
 	{
 		if (!parse_config_line(line, game))
-		{	
+		{
 			free(line);
-			break;
+			break ;
 		}
 		free(line);
+		line = get_next_line(fd);
 	}
 	if (!config_is_complete(game))
 	{
@@ -36,80 +49,82 @@ int	parse_config(int fd, t_game *game)
 	return (1);
 }
 
-int parse_config_line(char *line, t_game *game)
+int	parse_color_line(char *value, t_game *game, char type)
 {
-    char    **split;
-    char    *trimmed;
-    int     color;
+	int	color;
+
+	color = parse_color(value);
+	if (color == -1)
+		return (0);
+	if (type == 'F')
+		game->floor_color = color;
+	else if (type == 'C')
+		game->ceiling_color = color;
+	return (1);
+}
+
+int	parse_config_line(char *line, t_game *game)
+{
+	char	**split;
+	char	*trimmed;
+	int		result;
 
 	trimmed = ft_strtrim(line, " \n\t");
 	if (!trimmed)
 		return (0);
 	split = ft_split(trimmed, ' ');
 	free(trimmed);
-    if (!split || count_split(split) != 2)
-        return (free_split(split), 0);
-    if (ft_strcmp(split[0], "NO") == 0)
-        game->no_texture = ft_strdup(split[1]);
-    else if (ft_strcmp(split[0], "SO") == 0)
-        game->so_texture = ft_strdup(split[1]);
-    else if (ft_strcmp(split[0], "EA") == 0)
-        game->ea_texture = ft_strdup(split[1]);
-    else if (ft_strcmp(split[0], "WE") == 0)
-        game->we_texture = ft_strdup(split[1]);
-    else if (ft_strcmp(split[0], "F") == 0)
-    {
-        color = parse_color(split[1]);
-        if (color == -1)
-            return (free_split(split), 0);
-        game->floor_color = color;
-    }
-    else if (ft_strcmp(split[0], "C") == 0)
-    {
-        color = parse_color(split[1]);
-        if (color == -1)
-            return (free_split(split), 0);
-        game->ceiling_color = color;
-    }
-    else
-        return (free_split(split), 0);
-    return (free_split(split), 1);
+	if (!split || count_split(split) != 2)
+		return (free_split(split), 0);
+	result = 1;
+	if (ft_strcmp(split[0], "NO") == 0)
+		game->no_texture = ft_strdup(split[1]);
+	else if (ft_strcmp(split[0], "SO") == 0)
+		game->so_texture = ft_strdup(split[1]);
+	else if (ft_strcmp(split[0], "EA") == 0)
+		game->ea_texture = ft_strdup(split[1]);
+	else if (ft_strcmp(split[0], "WE") == 0)
+		game->we_texture = ft_strdup(split[1]);
+	else if (ft_strcmp(split[0], "F") == 0 || ft_strcmp(split[0], "C") == 0)
+		result = parse_color_line(split[1], game, split[0][0]);
+	else
+		result = 0;
+	return (free_split(split), result);
 }
 
-void free_split(char **split)
+void	free_split(char **split)
 {
-    int i;
+	int	i;
 
-    if (!split)
-        return;
-    i = 0;
-    while (split[i])
-    {
-        free(split[i]);
-        i++;
-    }
-    free(split);
+	if (!split)
+		return ;
+	i = 0;
+	while (split[i])
+	{
+		free(split[i]);
+		i++;
+	}
+	free(split);
 }
 
 int	config_is_complete(t_game *game)
 {
-	if (!game->no_texture || !game->so_texture || !game->we_texture || !game->ea_texture ||
-		game->floor_color == -1 ||game->ceiling_color == -1)
+	if (!game->no_texture || !game->so_texture || !game->we_texture
+		|| !game->ea_texture || game->floor_color == -1
+		|| game->ceiling_color == -1)
 		return (0);
 	return (1);
 }
 
-int ft_strcmp(const char *s1, const char *s2) 
+int	ft_strcmp(const char *s1, const char *s2)
 {
-    
-	while (*s1 && (*s1 == *s2)) 
+	while (*s1 && (*s1 == *s2))
 	{
-        s1++;
-        s2++;
-    }
-    return *(unsigned char *)s1 - *(unsigned char *)s2;
+		s1++;
+		s2++;
+	}
+	return (*(unsigned char *)s1 - *(unsigned char *)s2);
 }
-
 
 int	parse_color(char *color_str)
 {
@@ -122,17 +137,17 @@ int	parse_color(char *color_str)
 	split = ft_split(color_str, ',');
 	if (!split || count_split(split) != 3)
 	{
-		free_split(split); 
+		free_split(split);
 		return (-1);
 	}
 	r = atoi(split[0]);
 	g = atoi(split[1]);
 	b = atoi(split[2]);
-	free_split(split); 
+	free_split(split);
 	if (r < 0 || r > 255 || g < 0 || g > 255 || b < 0 || b > 255)
 		return (-1);
 	color = (r << 16) | (g << 8) | b;
-    return (color);
+	return (color);
 }
 
 int	count_split(char **split)
@@ -154,6 +169,21 @@ int	parse_map(int fd, t_game *game)
 	return (1);
 }
 
+int	process_map_line(char *line, t_list **list, int *started)
+{
+	if (is_empty_line(line))
+	{
+		if (*started)
+			return (0);
+	}
+	else
+	{
+		*started = 1;
+		ft_lstadd_back(list, ft_lstnew(ft_strdup(line)));
+	}
+	return (1);
+}
+
 int	create_map(int fd, t_game *game)
 {
 	char	*line;
@@ -162,22 +192,16 @@ int	create_map(int fd, t_game *game)
 
 	started = 0;
 	list = NULL;
-	while ((line = get_next_line(fd)) != NULL)
+	line = get_next_line(fd);
+	while (line != NULL)
 	{
-		if (is_empty_line(line))
+		if (!process_map_line(line, &list, &started))
 		{
-			if (started)
-			{
-				ft_lstclear(&list, free);
-				free(line);
-				return (0);
-			}
-			free(line);
-			continue;
+			ft_lstclear(&list, free);
+			return (free(line), 0);
 		}
-		started = 1;
-		ft_lstadd_back(&list, ft_lstnew(ft_strdup(line)));
 		free(line);
+		line = get_next_line(fd);
 	}
 	if (!list)
 		return (0);
@@ -185,7 +209,7 @@ int	create_map(int fd, t_game *game)
 	ft_lstclear(&list, free);
 	if (!game->map)
 		return (0);
-	return(1);
+	return (1);
 }
 
 int	valid_map(t_game *game)
@@ -212,8 +236,9 @@ int	check_elements(t_game *game)
 		j = -1;
 		while (game->map[i][++j])
 		{
-			if (game->map[i][j] == '0' || game->map[i][j] == '1' || game->map[i][j] == ' ')
-				continue;
+			if (game->map[i][j] == '0' || game->map[i][j] == '1'
+				|| game->map[i][j] == ' ')
+				continue ;
 			else if (game->map[i][j] == 'N' || game->map[i][j] == 'S'
 				|| game->map[i][j] == 'E' || game->map[i][j] == 'W')
 				assign_dir_and_pos(game, i, j, &p_count);
@@ -251,24 +276,18 @@ int	normalize_lines(t_game *game)
 	char	*normalized;
 
 	i = -1;
-	max_len = 0;
-	while (game->map[++i])
-	{
-		len = ft_strlen(game->map[i]);
-		if (len > max_len)
-			max_len = len;
-	}
-	game->width = max_len;
+	max_len = get_max_len(game);
 	i = -1;
 	while (game->map[++i])
 	{
 		len = ft_strlen(game->map[i]);
 		if (len == max_len)
-			continue;
+			continue ;
 		spaces = create_spaces(max_len - len);
 		if (!spaces)
 			return (0);
 		normalized = ft_strjoin(game->map[i], spaces);
+		free(spaces);
 		if (!normalized)
 			return (0);
 		free(game->map[i]);
@@ -277,12 +296,30 @@ int	normalize_lines(t_game *game)
 	return (1);
 }
 
+int	get_max_len(t_game *game)
+{
+	int	i;
+	int max;
+	int len;
+
+	i = -1;
+	max = 0;
+	while (game->map[++i])
+	{
+		len = ft_strlen(game->map[i]);
+		if (len > max)
+			max = len;
+	}
+	game->width = max;
+	return (max);
+}
+
 char	*create_spaces(int n)
 {
-	int i;
+	int		i;
 	char	*spaces;
 
-	spaces = malloc(sizeof(char ) * (n + 1));
+	spaces = malloc(sizeof(char) * (n + 1));
 	if (!spaces)
 		return (NULL);
 	i = -1;
@@ -294,14 +331,14 @@ char	*create_spaces(int n)
 
 int	is_config_line(char *line)
 {
-	char *trimmed;
+	char	*trimmed;
 
 	trimmed = ft_strtrim(line, " \n\t");
 	if (!trimmed)
 		return (0);
-	if (!ft_strncmp(trimmed, "NO ", 3) || !ft_strncmp(trimmed, "SO ", 3) ||
-		!ft_strncmp(trimmed, "WE ", 3) || !ft_strncmp(trimmed, "EA ", 3) ||
-		!ft_strncmp(trimmed, "F ", 2)  || !ft_strncmp(trimmed, "C ", 2))
+	if (!ft_strncmp(trimmed, "NO ", 3) || !ft_strncmp(trimmed, "SO ", 3)
+		|| !ft_strncmp(trimmed, "WE ", 3) || !ft_strncmp(trimmed, "EA ", 3)
+		|| !ft_strncmp(trimmed, "F ", 2) || !ft_strncmp(trimmed, "C ", 2))
 	{
 		free(trimmed);
 		return (1);
@@ -324,7 +361,7 @@ int	is_empty_line(char *line)
 	return (1);
 }
 
-char **list_to_array(t_list *list, t_game *g)
+char	**list_to_array(t_list *list, t_game *g)
 {
 	char	**map;
 	int		count;
@@ -353,16 +390,19 @@ char **list_to_array(t_list *list, t_game *g)
 	return (map);
 }
 
-int trim_map_lines(t_game *game)
+int	trim_map_lines(t_game *game)
 {
-	int i;
+	int		i;
+	char	*trimmed;
 
 	i = -1;
 	while (game->map[++i])
-	{	
-		game->map[i] = ft_strtrim(game->map[i], "\n");
-		if (!game->map[i])
+	{
+		trimmed = ft_strtrim(game->map[i], "\n");
+		if (!trimmed)
 			return (0);
+		free(game->map[i]);
+		game->map[i] = trimmed;
 	}
 	return (1);
 }

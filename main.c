@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jcantero <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/11 13:13:51 by jcantero          #+#    #+#             */
+/*   Updated: 2025/11/11 13:14:05 by jcantero         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "mlx_linux/mlx.h"
 #include "cubed.h"
 #include <limits.h>
@@ -5,7 +17,6 @@
 
 int	game_loop(t_game *g)
 {
-
 	g->img = mlx_new_image(g->mlx, WIN_WIDTH, WIN_HEIGHT);
 	g->addr = mlx_get_data_addr(g->img, &g->bpp, &g->line_len, &g->endian);
 	cast_rays(g);
@@ -22,14 +33,32 @@ int	terminate(t_game *g)
 	exit(0);
 }
 
-int main(int ac, char **av)
+int	validate_args(int ac, char **av)
+{
+	char	*format;
+
+	if (ac != 2)
+		return (0);
+	format = ft_strrchr(av[1], '.');
+	if (!format || ft_strncmp(format, ".cub", 4) != 0 || format[4] != '\0')
+		return (0);
+	return (1);
+}
+
+void	init_struct(t_game *game)
+{
+	ft_memset(game, 0, sizeof(t_game));
+	game->ceiling_color = -1;
+	game->floor_color = -1;
+}
+
+int	main(int ac, char **av)
 {
 	t_game	*g;
 
-	
 	g = init_game();
 	if (!validate_args(ac, av))
-		return (printf("Invalid arguments. Try again\n"), 1);	
+		return (printf("Invalid arguments. Try again\n"), 1);
 	// init_struct(g);
 	if (!parse_file(av[1], g))
 		return (printf("Error with parsing\n"), 1);
@@ -39,7 +68,7 @@ int main(int ac, char **av)
 	// 	printf("%s$\n", g->map[i]);
 	// }
 	printf("hola\n");
-	mlx_hook(g->win, KEYPRESS, 1L<<0, update_game, g);
+	mlx_hook(g->win, KEYPRESS, 1L << 0, update_game, g);
 	printf("adios\n");
 	mlx_loop_hook(g->mlx, game_loop, g);
 	mlx_hook(g->win, ON_DESTROY, 0L, terminate, g);
