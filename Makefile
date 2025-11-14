@@ -1,6 +1,6 @@
 NAME = cub3D
 
-SRC = main.c paint.c check.c game.c raycast.c hook.c movement.c rotate.c cardinal.c debug.c time.c \
+SRC = main.c paint.c check.c game.c raycast.c hook.c movement.c rotate.c texture.c debug.c time.c \
 	  flood.c intersection.c  set.c \
 	  src/parse_file.c src/parse_map.c src/parse_utils_1.c src/parse_utils_2.c src/valid_map.c
 
