@@ -27,12 +27,12 @@ void	paint_floor_ceil(t_game *g, int x)
 	i = 0;
 	while (i < WIN_HEIGHT / 2)
 	{
-		pixel_put(g, x, i, 0x0087ceeb);
+		pixel_put(g, x, i, g->ceiling_color);
 		i++;
 	}
 	while (i < WIN_HEIGHT)
 	{
-		pixel_put(g, x, i, 0x0000008b);
+		pixel_put(g, x, i, g->floor_color);
 		i++;
 	}
 }
