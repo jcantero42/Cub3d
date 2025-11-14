@@ -30,9 +30,18 @@ int	game_loop(t_game *g)
 
 int	terminate(t_game *g)
 {
+	mlx_destroy_image(g->mlx, g->no_img);
+	mlx_destroy_image(g->mlx, g->so_img);
+	mlx_destroy_image(g->mlx, g->ea_img);
+	mlx_destroy_image(g->mlx, g->we_img);
 	mlx_destroy_window(g->mlx, g->win);
 	mlx_destroy_display(g->mlx);
+	free(g->no_texture);
+	free(g->so_texture);
+	free(g->ea_texture);
+	free(g->we_texture);
 	free(g->mlx);
+	free(g);
 	exit(0);
 }
 
