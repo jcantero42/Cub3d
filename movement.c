@@ -22,13 +22,17 @@ int	check_move(t_game *g, double x, double y)
 {
 	if (g->map[(int)round(y)][(int)round(x)] == '1')
 		return (0);
-	if (g->map[(int)round(y + PLAYER_BARRIER)][(int)round(x + PLAYER_BARRIER)] == '1')
+	if (g->map[(int)round(y + PLAYER_BARRIER)]
+		[(int)round(x + PLAYER_BARRIER)] == '1')
 		return (0);
-	if (g->map[(int)round(y - PLAYER_BARRIER)][(int)round(x - PLAYER_BARRIER)] == '1')
+	if (g->map[(int)round(y - PLAYER_BARRIER)]
+		[(int)round(x - PLAYER_BARRIER)] == '1')
 		return (0);
-	if (g->map[(int)round(y + PLAYER_BARRIER)][(int)round(x - PLAYER_BARRIER)] == '1')
+	if (g->map[(int)round(y + PLAYER_BARRIER)]
+		[(int)round(x - PLAYER_BARRIER)] == '1')
 		return (0);
-	if (g->map[(int)round(y - PLAYER_BARRIER)][(int)round(x + PLAYER_BARRIER)] == '1')
+	if (g->map[(int)round(y - PLAYER_BARRIER)]
+		[(int)round(x + PLAYER_BARRIER)] == '1')
 		return (0);
 	return (1);
 }

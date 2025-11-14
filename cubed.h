@@ -126,9 +126,18 @@ typedef struct s_game
 
 void	pixel_put(t_game *g, int x, int y, int color);
 int	pixel_get(t_img	*img, int x, int y);
+void	paint_floor_ceil(t_game *g, int x);
 void	paint_column(t_game *g, int x, int h);
 
-char	**init_map();
+void	first_intersections(t_game *g);
+void	horizontal_intersection(t_game *g);
+void	vertical_intersection(t_game *g);
+
+void	set_direction(t_game *g);
+void	set_delta(t_game *g);
+void	set_steps(t_game *g);
+void	set_cardinal(t_game *g);
+
 void	init_game(t_game *g);
 char	check_vertical(t_game *g);
 char	check_horizontal(t_game *g);

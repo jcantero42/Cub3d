@@ -11,9 +11,6 @@ char	check_horizontal(t_game *g)
 	else
 		tile_y = ceil(g->hy);
 	tile_x = round(g->hx);
-	
-    // int tile_x = (int)floor(g->hx);
-    // int tile_y = (int)round(g->hy);
 	if (tile_x > g->width - 1 || tile_x < 0)
 		return ('E');
 	if (tile_y > g->height - 1 || tile_y < 0)
@@ -31,9 +28,6 @@ char	check_vertical(t_game *g)
 	else
 		tile_x = floor(g->vx);
 	tile_y = round(g->vy);
-	
-    // int tile_x = (int)round(g->vx);
-    // int tile_y = (int)floor(g->vy);
 	if (tile_x > g->width - 1 || tile_x < 0)
 		return ('E');
 	if (tile_y > g->height - 1 || tile_y < 0)

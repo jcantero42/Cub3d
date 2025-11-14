@@ -61,11 +61,11 @@ int	main(int ac, char **av)
 
 	g = (t_game *)malloc(sizeof(t_game));
 	if (!validate_args(ac, av))
-		return (printf("Invalid arguments. Try again\n"), 1);	
+		return (printf("Invalid arguments. Try again\n"), 1);
 	if (!parse_file(av[1], g))
 		return (printf("Error with parsing\n"), 1);
 	init_game(g);
-	mlx_hook(g->win, KEYPRESS, 1L<<0, update_game, g);
+	mlx_hook(g->win, KEYPRESS, 1L << 0, update_game, g);
 	mlx_loop_hook(g->mlx, game_loop, g);
 	mlx_hook(g->win, ON_DESTROY, 0L, terminate, g);
 	mlx_loop(g->mlx);

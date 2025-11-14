@@ -20,11 +20,10 @@ int	pixel_get(t_img	*img, int x, int y)
 	return (*(unsigned int *)dst);
 }
 
-void	paint_column(t_game *g, int x, int h)
+void	paint_floor_ceil(t_game *g, int x)
 {
 	int	i;
 
-	(void)h;
 	i = 0;
 	while (i < WIN_HEIGHT / 2)
 	{
@@ -36,6 +35,13 @@ void	paint_column(t_game *g, int x, int h)
 		pixel_put(g, x, i, 0x0000008b);
 		i++;
 	}
+}
+
+void	paint_column(t_game *g, int x, int h)
+{
+	int	i;
+
+	paint_floor_ceil(g, x);
 	i = ft_max(WIN_HEIGHT / 2 - h / 2, 0);
 	while (i < ft_min(WIN_HEIGHT / 2 + h / 2, WIN_HEIGHT))
 	{
