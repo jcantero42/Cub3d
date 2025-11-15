@@ -77,3 +77,13 @@ int	valid_map(t_game *game)
 	restore_map(game, game->px, game->py);
 	return (1);
 }
+
+void    free_parser(t_game *g)
+{
+	free_map(g->map);
+	free(g->no_texture);
+	free(g->so_texture);
+	free(g->ea_texture);
+	free(g->we_texture);
+	free(g);
+}

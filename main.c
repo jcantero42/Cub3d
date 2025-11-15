@@ -36,6 +36,7 @@ int	terminate(t_game *g)
 	mlx_destroy_image(g->mlx, g->we_img);
 	mlx_destroy_window(g->mlx, g->win);
 	mlx_destroy_display(g->mlx);
+	free_map(g->map);
 	free(g->no_texture);
 	free(g->so_texture);
 	free(g->ea_texture);
@@ -68,11 +69,11 @@ int	main(int ac, char **av)
 {
 	t_game	*g;
 
-	g = (t_game *)malloc(sizeof(t_game));
 	if (!validate_args(ac, av))
 		return (printf("Invalid arguments. Try again\n"), 1);
+	g = (t_game *)malloc(sizeof(t_game));
 	if (!parse_file(av[1], g))
-		return (printf("Error with parsing\n"), 1);
+		return (free_parser(g), printf("Error with parsing\n"), 1);
 	init_game(g);
 	mlx_hook(g->win, KEYPRESS, 1L << 0, update_game, g);
 	mlx_loop_hook(g->mlx, game_loop, g);

@@ -210,5 +210,7 @@ void	assign_dir_and_pos(t_game *game, int i, int j, int *p_count);
 int		parse_color_line(char *value, t_game *game, char type);
 int		process_map_line(char *line, t_list **list, int *started);
 int		get_max_len(t_game *game);
+void    free_map(char **map);
+void    free_parser(t_game *g);
 
 #endif
