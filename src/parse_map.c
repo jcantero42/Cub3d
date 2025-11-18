@@ -78,7 +78,7 @@ int	valid_map(t_game *game)
 	return (1);
 }
 
-void    free_parser(t_game *g)
+void	free_parser(t_game *g)
 {
 	free_map(g->map);
 	free(g->no_texture);

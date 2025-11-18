@@ -70,10 +70,10 @@ int	main(int ac, char **av)
 	t_game	*g;
 
 	if (!validate_args(ac, av))
-		return (printf("Invalid arguments. Try again\n"), 1);
+		return (printf("Error.n Invalid arguments. Try again.\n"), 1);
 	g = (t_game *)malloc(sizeof(t_game));
 	if (!parse_file(av[1], g))
-		return (free_parser(g), printf("Error with parsing\n"), 1);
+		return (free_parser(g), printf("Error.\n Parsing failed.\n"), 1);
 	init_game(g);
 	mlx_hook(g->win, KEYPRESS, 1L << 0, update_game, g);
 	mlx_loop_hook(g->mlx, game_loop, g);

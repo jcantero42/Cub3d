@@ -102,15 +102,17 @@ void	assign_dir_and_pos(t_game *game, int i, int j, int *p_count)
 	(*p_count)++;
 }
 
-void    free_map(char **map)
+void	free_map(char **map)
 {
-    int i = 0;
-    if (!map)
-        return;
-    while (map[i])
-    {
-        free(map[i]);
-        i++;
-    }
-    free(map);
+	int	i;	
+
+	i = 0;
+	if (!map)
+		return ;
+	while (map[i])
+	{
+		free(map[i]);
+		i++;
+	}
+	free(map);
 }
