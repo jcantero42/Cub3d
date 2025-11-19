@@ -11,7 +11,6 @@ void	pixel_put(t_game *g, int x, int y, int color)
 	*(unsigned int *)dst = color;
 }
 
-// not really sure about this function
 int	pixel_get(t_img	*img, int x, int y)
 {
 	char	*dst;

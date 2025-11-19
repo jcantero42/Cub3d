@@ -58,11 +58,14 @@ int	validate_args(int ac, char **av)
 	return (1);
 }
 
-void	init_struct(t_game *game)
+t_game	*init_struct(void)
 {
-	ft_memset(game, 0, sizeof(t_game));
-	game->ceiling_color = -1;
-	game->floor_color = -1;
+	t_game	*g;
+
+	g = (t_game *)ft_calloc(1, sizeof(t_game));
+	g->ceiling_color = -1;
+	g->floor_color = -1;
+	return (g);
 }
 
 int	main(int ac, char **av)
@@ -70,8 +73,8 @@ int	main(int ac, char **av)
 	t_game	*g;
 
 	if (!validate_args(ac, av))
-		return (printf("Error.n Invalid arguments. Try again.\n"), 1);
-	g = (t_game *)malloc(sizeof(t_game));
+		return (printf("Error.\n Invalid arguments. Try again.\n"), 1);
+	g = init_struct();
 	if (!parse_file(av[1], g))
 		return (free_parser(g), printf("Error.\n Parsing failed.\n"), 1);
 	init_game(g);

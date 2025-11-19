@@ -203,14 +203,14 @@ int		is_empty_line(char *line);
 char	**list_to_array(t_list *list, t_game *g);
 int		trim_map_lines(t_game *game);
 int		ft_isspace(char c);
-void	init_struct(t_game *game);
+t_game	*init_struct(void);
 int		validate_args(int ac, char **av);
 int		check_elements(t_game *game);
 void	assign_dir_and_pos(t_game *game, int i, int j, int *p_count);
 int		parse_color_line(char *value, t_game *game, char type);
 int		process_map_line(char *line, t_list **list, int *started);
 int		get_max_len(t_game *game);
-void    free_map(char **map);
-void    free_parser(t_game *g);
+void	free_map(char **map);
+void	free_parser(t_game *g);
 
 #endif
