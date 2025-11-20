@@ -22,9 +22,9 @@
 # define KEY_LEFT 65361
 # define KEY_RIGHT 65363
 
-# define PLAYER_SPEED 0.008
+# define PLAYER_STEP 0.05
 
-# define ROTATE_SPEED 0.008
+# define ROTATE_STEP 0.05
 
 # define PLAYER_BARRIER 0.3
 
